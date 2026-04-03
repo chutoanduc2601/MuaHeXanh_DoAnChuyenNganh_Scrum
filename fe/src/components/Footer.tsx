@@ -5,7 +5,7 @@ export default function Footer() {
     <footer id="contact" className="footer">
       <div className="footer-content">
         <div className="footer-col">
-          <div className="logo">
+          <div className="footer-logo">
             <span className="logo-text">GreenSummers</span>
           </div>
           <p>Cổng thông tin chuyên biệt hỗ trợ tiếp nhận đơn từ các sinh viên có nguyện vọng tham gia Mùa Hè Xanh. Kết nối sức trẻ - chung tay vì cộng đồng.</p>
