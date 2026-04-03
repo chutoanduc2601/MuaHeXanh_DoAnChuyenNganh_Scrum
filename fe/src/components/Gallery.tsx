@@ -10,7 +10,7 @@ export default function Gallery() {
         </div>
         <div className="gallery-grid">
           <div className="gallery-item large">
-            <img src="https://images.unsplash.com/photo-1593113565694-c6c87e671d1e?auto=format&fit=crop&q=80&w=800" alt="Mùa hè xanh với thiếu nhi" />
+            <img src="https://thanhnien.mediacdn.vn/Uploaded/trongnth/2022_07_08/sang-4-1505.jpg" alt="Mùa hè xanh với thiếu nhi" />
           </div>
           <div className="gallery-item">
             <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80&w=600" alt="Cải tạo hạ tầng" />
