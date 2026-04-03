@@ -8,7 +8,7 @@ const LoginPage = () => {
       <div className="app">
         {/* LOGIN PAGE  */}
         <section id="loginPage" className="login-wrap">
-          <div className="login-left">
+          <div className="lp-login-left">
             <div className="pill">CHIẾN DỊCH TÌNH NGUYỆN HÈ 2026</div>
             <h1>Mùa hè xanh</h1>
             <p>
@@ -36,9 +36,9 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="login-right">
-            <div className="login-card">
-              <div className="logo">🌿</div>
+          <div className="lp-login-right">
+            <div className="lp-login-card">
+              <div className="lp-logo">🌿</div>
               <h2>Đăng nhập</h2>
               <p className="sub">
                 Chào mừng bạn đến với cổng thông tin chiến dịch{" "}
@@ -80,10 +80,10 @@ const LoginPage = () => {
         </section>
 
         {/* MAIN PAGE  */}
-        <section id="mainPage" className="main-page hidden">
-          <div className="navbar">
-            <div className="brand">
-              <div className="brand-logo">🌱</div>
+        <section id="mainPage" className="mp-main-page hidden">
+          <div className="mp-navbar">
+            <div className="mp-brand">
+              <div className="mp-brand-logo">🌱</div>
               <div>
                 <h3>Mùa Hè Xanh 2026</h3>
                 <p>Tuổi trẻ hành động vì cộng đồng xanh</p>
@@ -100,8 +100,8 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="hero-section">
-            <div className="hero-card">
+          <div className="mp-hero-section">
+            <div className="mp-hero-card">
               <div className="pill">SẴN SÀNG CHO HÀNH TRÌNH XANH?</div>
               <h1>Mùa hè xanh 2026</h1>
               <p>
@@ -111,10 +111,10 @@ const LoginPage = () => {
               </p>
 
               <div className="hero-actions">
-                <a href="#" className="btn btn-white">
+                <a href="#" className="mp-btn mp-btn-white">
                   Đăng ký tham gia
                 </a>
-                <a href="#" className="btn btn-outline">
+                <a href="#" className="mp-btn mp-btn-outline">
                   Xem kế hoạch
                 </a>
               </div>
@@ -140,8 +140,8 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="content-grid">
-            <div className="card">
+          <div className="mp-content-grid">
+            <div className="mp-card">
               <div className="stat">1,200+</div>
               <h3>Tình nguyện viên</h3>
               <p>Đồng hành trong các hoạt động hè xanh trên nhiều mặt trận.</p>
