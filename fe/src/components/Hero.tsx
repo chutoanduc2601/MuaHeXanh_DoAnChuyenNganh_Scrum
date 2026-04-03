@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -11,8 +11,8 @@ export default function Hero() {
           Hãy cùng nhau xây dựng cộng đồng và để lại những dấu ấn tốt đẹp nhất!
         </p>
         <div className="hero-actions">
-          <button className="btn-primary btn-large">Đăng ký tham gia ngay</button>
-          <button className="btn-secondary btn-large">Thông tin chi tiết</button>
+          <Link to="/dang-ky" className="btn-primary btn-large">Đăng ký tham gia ngay</Link>
+          <a href="#about" className="btn-secondary btn-large">Tìm hiểu thêm</a>
         </div>
       </div>
       <div className="hero-image-container">
@@ -20,5 +20,5 @@ export default function Hero() {
         <img src="/src/assets/images/betruc.jpg" alt="Sinh viên tình nguyện Mùa Hè Xanh" className="hero-image" />
       </div>
     </section>
-  )
+  );
 }
