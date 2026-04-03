@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <Link to="/" className="logo">
+        <Link to="/" className="navbar-logo">
           <span className="logo-text">GreenSummers</span>
         </Link>
         <div className="nav-links desktop-menu">
