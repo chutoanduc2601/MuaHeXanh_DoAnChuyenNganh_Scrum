@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 
 export default function Gallery() {
   return (
@@ -27,10 +27,10 @@ export default function Gallery() {
       <section className="cta-section">
         <div className="cta-content">
           <h2>Sẵn sàng mang sức trẻ cống hiến chưa?</h2>
-          <p>Hãy nhanh tay tải mẫu đơn và đăng ký để xếp vào danh sách mặt trận năm nay. Số lượng xét duyệt có giới hạn cho một số địa bàn trung tâm.</p>
-          <button className="btn-primary btn-large">Mở form đăng ký</button>
+          <p>Hãy nhanh tay đăng ký để được xếp vào danh sách mặt trận năm nay. Số lượng xét duyệt có giới hạn cho một số địa bàn trung tâm.</p>
+          <Link to="/dang-ky" className="btn-primary btn-large">Mở form đăng ký</Link>
         </div>
       </section>
     </>
-  )
+  );
 }
