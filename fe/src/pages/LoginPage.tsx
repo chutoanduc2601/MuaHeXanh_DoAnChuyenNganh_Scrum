@@ -1,4 +1,34 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState(""); // Thêm state quản lý mật khẩu
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // Ngăn trang bị reload khi bấm submit
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Gửi cả username và password xuống Backend
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const user = await response.json();
+        alert("Đăng nhập thành công! Chào " + user.fullname);
+        navigate("/"); // Chuyển về trang chủ
+      } else {
+        setError("Email hoặc mật khẩu không chính xác!");
+      }
+    } catch (err) {
+      setError("Không kết nối được với server!");
+    }
+  };
+
   return (
     <>
       <div className="bg-shape shape1"></div>
@@ -45,13 +75,16 @@ const LoginPage = () => {
                 <strong>Mùa hè xanh 2026</strong>.
               </p>
 
-              <form id="loginForm">
+              <form id="loginForm" onSubmit={handleLogin}>
                 <div className="form-group">
-                  <label htmlFor="username">Tên đăng nhập</label>
+                  <label htmlFor="username">Tên đăng nhập (Email)</label>
                   <input
                     type="text"
                     id="username"
-                    placeholder="Nhập tên đăng nhập"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Nhập email"
+                    required
                   />
                 </div>
 
@@ -60,25 +93,30 @@ const LoginPage = () => {
                   <input
                     type="password"
                     id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Nhập mật khẩu"
+                    required
                   />
                 </div>
+
                 <div>
                   <p>
-                    Chưa có tài khoản? <a href="#">Đăng ký ngay</a>
+                    Chưa có tài khoản? <a href="/dang-ky">Đăng ký ngay</a>
                   </p>
                 </div>
+
+                {error && (
+                  <p style={{ color: "red", margin: "10px 0" }}>{error}</p>
+                )}
 
                 <button type="submit" className="login-btn">
                   Đăng nhập ngay
                 </button>
-
-                <div id="errorMsg" className="error"></div>
               </form>
             </div>
           </div>
         </section>
-
         {/* MAIN PAGE  */}
         <section id="mainPage" className="main-page hidden">
           <div className="navbar">
