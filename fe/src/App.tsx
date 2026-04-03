@@ -1,13 +1,15 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Features from "./components/Features";
-import Gallery from "./components/Gallery";
-import Footer from "./components/Footer";
-import "./App.css";
-import "./assets/css/LoginPage.css";
-import LoginPage from "./pages/LoginPage";
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Features from './components/Features';
+import Gallery from './components/Gallery';
+import Footer from './components/Footer';
+import SignUpPage from './components/SignUpPage';
+import './App.css';
+import './assets/css/LoginPage.css';
+import LoginPage from './pages/LoginPage';
 
-function App() {
+function HomePage() {
   return (
     <div className="app-container">
       <Navbar />
@@ -18,7 +20,16 @@ function App() {
       </main>
       <Footer />
     </div>
-    
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/dang-ky" element={<SignUpPage />} />
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
   );
 }
 
