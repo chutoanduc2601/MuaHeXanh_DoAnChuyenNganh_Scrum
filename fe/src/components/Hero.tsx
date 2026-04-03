@@ -17,7 +17,7 @@ export default function Hero() {
       </div>
       <div className="hero-image-container">
         <div className="hero-blob"></div>
-        <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=600&h=800" alt="Sinh viên tình nguyện Mùa Hè Xanh" className="hero-image" />
+        <img src="/src/assets/images/betruc.jpg" alt="Sinh viên tình nguyện Mùa Hè Xanh" className="hero-image" />
       </div>
     </section>
   )
