@@ -5,6 +5,8 @@ import Features from './components/Features';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import './App.css';
+import './assets/css/LoginPage.css'
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
