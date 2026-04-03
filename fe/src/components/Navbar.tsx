@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -6,9 +7,9 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <div className="logo">
+        <Link to="/" className="navbar-logo">
           <span className="logo-text">GreenSummers</span>
-        </div>
+        </Link>
         <div className="nav-links desktop-menu">
           <a href="#home">Trang chủ</a>
           <a href="#about">Ý nghĩa</a>
@@ -17,7 +18,7 @@ export default function Navbar() {
         </div>
         <div className="auth-buttons desktop-menu">
           <button className="btn-text">Đăng nhập</button>
-          <button className="btn-primary">Đăng ký tình nguyện viên</button>
+          <Link to="/dang-ky" className="btn-primary">Đăng ký tình nguyện viên</Link>
         </div>
         <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           Mở Menu
@@ -31,10 +32,10 @@ export default function Navbar() {
           <a href="#contact" onClick={() => setIsMenuOpen(false)}>Liên hệ</a>
           <div className="auth-buttons-mobile">
             <button className="btn-secondary">Đăng nhập</button>
-            <button className="btn-primary">Đăng ký</button>
+            <Link to="/dang-ky" className="btn-primary" onClick={() => setIsMenuOpen(false)}>Đăng ký</Link>
           </div>
         </div>
       )}
     </nav>
-  )
+  );
 }
