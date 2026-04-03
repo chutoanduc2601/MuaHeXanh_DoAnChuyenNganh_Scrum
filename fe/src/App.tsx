@@ -28,6 +28,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/dang-ky" element={<SignUpPage />} />
+      <Route path="/dang-nhap" element={<LoginPage />} />
     </Routes>
   );
 }

@@ -17,7 +17,7 @@ export default function Navbar() {
           <a href="#contact">Liên hệ</a>
         </div>
         <div className="auth-buttons desktop-menu">
-          <button className="btn-text">Đăng nhập</button>
+          <Link to="/dang-nhap" className="btn-text">Đăng nhập</Link>
           <Link to="/dang-ky" className="btn-primary">Đăng ký tình nguyện viên</Link>
         </div>
         <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -31,7 +31,7 @@ export default function Navbar() {
           <a href="#gallery" onClick={() => setIsMenuOpen(false)}>Hình ảnh</a>
           <a href="#contact" onClick={() => setIsMenuOpen(false)}>Liên hệ</a>
           <div className="auth-buttons-mobile">
-            <button className="btn-secondary">Đăng nhập</button>
+            <Link to="/dang-nhap" className="btn-secondary" onClick={() => setIsMenuOpen(false)}>Đăng nhập</Link>
             <Link to="/dang-ky" className="btn-primary" onClick={() => setIsMenuOpen(false)}>Đăng ký</Link>
           </div>
         </div>
