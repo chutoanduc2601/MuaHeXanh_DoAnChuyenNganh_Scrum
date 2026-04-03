@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LOCATIONS = [
-  'Tây Nguyên (Đắk Lắk, Gia Lai, Kon Tum...)',
-  'Đồng bằng sông Cửu Long (Bến Tre, Trà Vinh, Sóc Trăng...)',
-  'Đông Nam Bộ (Tây Ninh, Bình Phước, Bình Dương...)',
-  'Nội thành TP. Hồ Chí Minh',
-];
-
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
+    dob: '',
     studentId: '',
+    email: '',
+    phone: '',
     university: '',
-    location: '',
+    health: 'Bình thường',
+    skills: '',
+    experience: 'Chưa từng tham gia',
+    locationNote: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -42,7 +41,7 @@ export default function SignUpPage() {
                 <div className="step-dot">1</div>
                 <div>
                   <strong>Điền đơn đăng ký</strong>
-                  <span>Cung cấp thông tin và nguyện vọng của bạn</span>
+                  <span>Cung cấp thông tin đầy đủ để Ban Chỉ Huy nắm bắt năng lực của bạn</span>
                 </div>
               </div>
               <div className="step-connector"></div>
@@ -50,7 +49,7 @@ export default function SignUpPage() {
                 <div className="step-dot">2</div>
                 <div>
                   <strong>Phỏng vấn ngắn</strong>
-                  <span>Trao đổi cùng Ban Chỉ Huy về kỹ năng</span>
+                  <span>Trao đổi cùng Ban Chỉ Huy về kỹ năng chuyên môn</span>
                 </div>
               </div>
               <div className="step-connector"></div>
@@ -58,7 +57,7 @@ export default function SignUpPage() {
                 <div className="step-dot">3</div>
                 <div>
                   <strong>Lên đường cống hiến</strong>
-                  <span>Xuất quân đến mặt trận được phân công</span>
+                  <span>Xuất quân đến mặt trận theo nguyện vọng và năng lực</span>
                 </div>
               </div>
             </div>
@@ -73,25 +72,25 @@ export default function SignUpPage() {
 
       {/* Right panel - form */}
       <div className="signup-right-panel">
-        <div className="signup-right-inner">
+        <div className="signup-right-inner" style={{ maxWidth: '600px' }}>
           <Link to="/" className="signup-back-link">&larr; Quay về trang chủ</Link>
 
           {submitted ? (
             <div className="signup-success">
               <div className="success-check">✓</div>
               <h2>Đăng ký thành công!</h2>
-              <p>Cảm ơn bạn <strong>{formData.fullName}</strong> đã đăng ký tham gia Mùa Hè Xanh 2026. Ban Chỉ Huy sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
+              <p>Cảm ơn bạn <strong>{formData.fullName}</strong> đã đăng ký tham gia Mùa Hè Xanh 2026. Ban Chỉ Huy sẽ liên hệ với bạn qua email <strong>{formData.email}</strong> trong thời gian sớm nhất.</p>
               <button className="btn-primary btn-large" onClick={() => navigate('/')}>Trở về Trang chủ</button>
             </div>
           ) : (
             <>
               <div className="signup-form-header">
                 <h2>Đăng ký tình nguyện viên</h2>
-                <p>Vui lòng điền đầy đủ thông tin bên dưới để hoàn tất đơn đăng ký.</p>
+                <p>Mẫu đơn thu thập đầy đủ thông tin để phân bổ đội hình phù hợp.</p>
               </div>
 
               <form className="signup-form-main" onSubmit={handleSubmit}>
-                <div className="form-section-title">Thông tin cá nhân</div>
+                <div className="form-section-title">Thông tin cá nhân & Liên hệ</div>
 
                 <div className="form-row">
                   <div className="form-group">
@@ -107,6 +106,47 @@ export default function SignUpPage() {
                     />
                   </div>
                   <div className="form-group">
+                    <label htmlFor="dob">Ngày tháng năm sinh</label>
+                    <input
+                      type="date"
+                      id="dob"
+                      name="dob"
+                      value={formData.dob}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="email">Email liên hệ</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="email@example.com"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="phone">Số điện thoại</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="0912345678"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
                     <label htmlFor="studentId">Mã số sinh viên</label>
                     <input
                       type="text"
@@ -118,39 +158,50 @@ export default function SignUpPage() {
                       placeholder="20261234"
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="university">Trường ĐH / Cao đẳng</label>
+                    <input
+                      type="text"
+                      id="university"
+                      name="university"
+                      value={formData.university}
+                      onChange={handleChange}
+                      required
+                      placeholder="Đại học Bách Khoa"
+                    />
+                  </div>
                 </div>
 
+                <div className="form-section-title" style={{ marginTop: '1.5rem' }}>Năng lực & Nguyện vọng</div>
+
                 <div className="form-group">
-                  <label htmlFor="university">Trường Đại học / Cao đẳng</label>
+                  <label htmlFor="skills">Thế mạnh / Kỹ năng nổi bật</label>
                   <input
                     type="text"
-                    id="university"
-                    name="university"
-                    value={formData.university}
+                    id="skills"
+                    name="skills"
+                    value={formData.skills}
                     onChange={handleChange}
-                    required
-                    placeholder="Đại học Bách Khoa TP. Hồ Chí Minh"
+                    placeholder="Văn nghệ, thiết kế, xây dựng, nhiếp ảnh, MC..."
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="location">Địa bàn công tác mong muốn</label>
-                  <select
-                    id="location"
-                    name="location"
-                    value={formData.location}
+                  <label htmlFor="locationNote">Địa bàn công tác mong muốn (hoặc yêu cầu đặc biệt)</label>
+                  <textarea
+                    id="locationNote"
+                    name="locationNote"
+                    value={formData.locationNote}
                     onChange={handleChange}
                     required
-                  >
-                    <option value="" disabled>-- Chọn địa bàn --</option>
-                    {LOCATIONS.map((loc) => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
-                  </select>
+                    placeholder="Ghi rõ mặt trận bạn muốn tham gia (VD: Tây Nguyên, Miền Tây...) hoặc lưu ý riêng (VD: Muốn vào đội hình dạy học...)"
+                    rows={4}
+                    style={{ resize: 'vertical' }}
+                  ></textarea>
                 </div>
 
-                <button type="submit" className="btn-primary btn-submit">
-                  Gửi đơn đăng ký
+                <button type="submit" className="btn-primary btn-submit" style={{ marginTop: '1.5rem' }}>
+                  Xác nhận đăng ký
                 </button>
               </form>
             </>
