@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../App.css'; // Make sure styles are applied
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<{ fullname: string } | null>(() => {
+  const [user, setUser] = useState<{ fullname: string; email?: string } | null>(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
@@ -14,119 +13,268 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('user');
     setUser(null);
+    setShowDropdown(false);
     navigate('/');
   };
 
-  // Helper để lấy chữ cái đầu của tên
   const getInitials = (name: string) => {
     if (!name) return 'U';
-    const parts = name.split(' ');
-    // Lấy chữ cái đầu của từ cuối cùng (tên)
+    const parts = name.trim().split(' ');
     return parts[parts.length - 1].charAt(0).toUpperCase();
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-content">
+        {/* Logo */}
         <Link to="/" className="navbar-logo">
           <span className="logo-text">GreenSummers</span>
         </Link>
+
+        {/* Navigation links — vị trí KHÔNG thay đổi */}
         <div className="nav-links desktop-menu">
           <a href="#home">Trang chủ</a>
           <a href="#about">Ý nghĩa</a>
           <a href="#gallery">Hình ảnh</a>
           <a href="#contact">Liên hệ</a>
         </div>
-        <div className="auth-buttons desktop-menu">
-          {user ? (
-            <div className="user-profile-menu" style={{ position: 'relative' }}>
-              <div 
-                className="user-avatar" 
+
+        {/* Auth section — luôn chiếm cùng một khoảng không gian */}
+        <div className="auth-buttons desktop-menu" style={{ position: 'relative' }}>
+          {/*
+            Hai nút này luôn được render để giữ nguyên khoảng không gian.
+            - Khi CHƯA đăng nhập: hiển thị bình thường
+            - Khi ĐÃ đăng nhập: ẩn bằng visibility:hidden (vẫn chiếm không gian)
+            → Nav links không bao giờ bị xê dịch
+          */}
+          <Link
+            to="/dang-nhap"
+            className="btn-text"
+            style={user ? { visibility: 'hidden', pointerEvents: 'none' } : {}}
+          >
+            Đăng nhập
+          </Link>
+          <Link
+            to="/dang-ky"
+            className="btn-primary"
+            style={user ? { visibility: 'hidden', pointerEvents: 'none' } : {}}
+          >
+            Đăng ký tình nguyện viên
+          </Link>
+
+          {/* User pill — chỉ hiện khi đã đăng nhập, đặt absolute trên nền 2 nút */}
+          {user && (
+            <div style={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}>
+              {/* Trigger */}
+              <button
                 onClick={() => setShowDropdown(!showDropdown)}
                 style={{
-                  width: '40px', height: '40px', borderRadius: '50%',
-                  backgroundColor: '#4ade80', color: '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 'bold', cursor: 'pointer', fontSize: '18px'
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '6px 14px 6px 6px',
+                  backgroundColor: '#f0fdf4',
+                  border: '1px solid #d1fae5',
+                  borderRadius: '50px',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#1f2937',
+                  whiteSpace: 'nowrap',
+                  transition: 'box-shadow 0.2s',
                 }}
               >
-                {getInitials(user.fullname)}
-              </div>
-
-              {/* Dropdown menu */}
-              {showDropdown && (
-                <div className="profile-dropdown" style={{
-                  position: 'absolute', top: '50px', right: '0',
-                  backgroundColor: 'white', padding: '10px',
-                  borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-                  minWidth: '150px', zIndex: 1000
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  flexShrink: 0,
                 }}>
-                  <p style={{ margin: '0 0 10px 0', fontWeight: 'bold', color: '#333' }}>
-                    {user.fullname}
-                  </p>
-                  <Link 
-                    to="/profile" 
-                    className="dropdown-item" 
-                    style={{ display: 'block', padding: '8px 0', color: '#16a34a', textDecoration: 'none' }}
+                  {getInitials(user.fullname)}
+                </div>
+                <span>{user.fullname}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="#6b7280" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              {/* Dropdown */}
+              {showDropdown && (
+                <div style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 10px)',
+                  right: 0,
+                  backgroundColor: '#fff',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                  minWidth: '210px',
+                  zIndex: 1000,
+                  overflow: 'hidden',
+                }}>
+                  {/* Header */}
+                  <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3f4f6' }}>
+                    <p style={{ margin: 0, fontWeight: '700', color: '#111827', fontSize: '14px' }}>
+                      {user.fullname}
+                    </p>
+                    {user.email && (
+                      <p style={{ margin: '2px 0 0', color: '#6b7280', fontSize: '12px' }}>
+                        {user.email}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Profile link */}
+                  <Link
+                    to="/profile"
+                    onClick={() => setShowDropdown(false)}
+                    style={{
+                      display: 'block',
+                      padding: '11px 16px',
+                      color: '#059669',
+                      fontWeight: '500',
+                      fontSize: '14px',
+                      textDecoration: 'none',
+                      transition: 'background-color 0.15s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f0fdf4')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                   >
                     Hồ sơ của tôi
                   </Link>
-                  <div style={{ height: '1px', backgroundColor: '#eee', margin: '5px 0' }}></div>
-                  <button 
+
+                  {/* Divider */}
+                  <div style={{ height: '1px', backgroundColor: '#f3f4f6' }} />
+
+                  {/* Logout */}
+                  <button
                     onClick={handleLogout}
                     style={{
-                      width: '100%', background: 'none', border: 'none',
-                      color: '#ef4444', textAlign: 'left', padding: '8px 0',
-                      cursor: 'pointer', fontSize: '16px'
+                      display: 'block',
+                      width: '100%',
+                      padding: '11px 16px',
+                      color: '#dc2626',
+                      fontWeight: '500',
+                      fontSize: '14px',
+                      textAlign: 'left',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                      transition: 'background-color 0.15s',
                     }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#fff7f7')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                   >
                     Đăng xuất
                   </button>
                 </div>
               )}
             </div>
-          ) : (
-            <>
-              <Link to="/dang-nhap" className="btn-text">Đăng nhập</Link>
-              <Link to="/dang-ky" className="btn-primary">Đăng ký tình nguyện viên</Link>
-            </>
           )}
         </div>
 
+        {/* Mobile menu button */}
         <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          Mở Menu
+          Menu
         </button>
       </div>
+
+      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="mobile-menu">
           <a href="#home" onClick={() => setIsMenuOpen(false)}>Trang chủ</a>
           <a href="#about" onClick={() => setIsMenuOpen(false)}>Ý nghĩa</a>
           <a href="#gallery" onClick={() => setIsMenuOpen(false)}>Hình ảnh</a>
           <a href="#contact" onClick={() => setIsMenuOpen(false)}>Liên hệ</a>
-          
-          <div className="auth-buttons-mobile" style={{ marginTop: '15px' }}>
+
+          <div className="auth-buttons-mobile" style={{
+            marginTop: '16px',
+            paddingTop: '16px',
+            borderTop: '1px solid #e5e7eb',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+          }}>
             {user ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                   <div style={{
-                      width: '35px', height: '35px', borderRadius: '50%',
-                      backgroundColor: '#4ade80', color: '#fff',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 'bold'
-                    }}>
-                      {getInitials(user.fullname)}
-                   </div>
-                   <span style={{ fontWeight: 'bold' }}>{user.fullname}</span>
+              <>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px',
+                  backgroundColor: '#f0fdf4',
+                  borderRadius: '10px',
+                  border: '1px solid #d1fae5',
+                }}>
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '50%',
+                    backgroundColor: '#10b981', color: '#fff',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontWeight: '700', fontSize: '16px', flexShrink: 0,
+                  }}>
+                    {getInitials(user.fullname)}
+                  </div>
+                  <div>
+                    <p style={{ margin: 0, fontWeight: '600', color: '#111827', fontSize: '15px' }}>
+                      {user.fullname}
+                    </p>
+                    <p style={{ margin: 0, color: '#6b7280', fontSize: '12px' }}>
+                      Sinh viên tình nguyện
+                    </p>
+                  </div>
                 </div>
-                <Link to="/profile" className="btn-secondary" onClick={() => setIsMenuOpen(false)}>Hồ sơ của tôi</Link>
-                <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} className="btn-primary" style={{ backgroundColor: '#ef4444' }}>
+
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    display: 'block', textAlign: 'center', padding: '11px',
+                    backgroundColor: '#e0f2fe', color: '#0369a1',
+                    fontWeight: '600', borderRadius: '10px', textDecoration: 'none',
+                    fontSize: '15px',
+                  }}
+                >
+                  Hồ sơ của tôi
+                </Link>
+
+                <button
+                  onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                  style={{
+                    padding: '11px', borderRadius: '10px',
+                    backgroundColor: '#fee2e2', color: '#b91c1c',
+                    border: 'none', fontWeight: '600', cursor: 'pointer',
+                    width: '100%', fontSize: '15px', fontFamily: 'inherit',
+                  }}
+                >
                   Đăng xuất
                 </button>
-              </div>
+              </>
             ) : (
               <>
-                <Link to="/dang-nhap" className="btn-secondary" onClick={() => setIsMenuOpen(false)}>Đăng nhập</Link>
-                <Link to="/dang-ky" className="btn-primary" onClick={() => setIsMenuOpen(false)}>Đăng ký</Link>
+                <Link
+                  to="/dang-nhap"
+                  className="btn-secondary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Đăng nhập
+                </Link>
+                <Link
+                  to="/dang-ky"
+                  className="btn-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Đăng ký
+                </Link>
               </>
             )}
           </div>
