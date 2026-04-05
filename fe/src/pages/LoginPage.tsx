@@ -19,12 +19,13 @@ const LoginPage = () => {
 
       if (response.ok) {
         const user = await response.json();
+        localStorage.setItem("user", JSON.stringify(user));
         alert("Đăng nhập thành công! Chào " + user.fullname);
         navigate("/"); // Chuyển về trang chủ
       } else {
         setError("Email hoặc mật khẩu không chính xác!");
       }
-    } catch (err) {
+    } catch {
       setError("Không kết nối được với server!");
     }
   };
