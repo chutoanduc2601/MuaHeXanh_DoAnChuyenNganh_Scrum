@@ -4,26 +4,67 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
+
   const [formData, setFormData] = useState({
-    fullName: '',
+    fullname: '',
     dob: '',
     studentId: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     phone: '',
-    university: '',
-    health: 'Bình thường',
-    skills: '',
-    experience: 'Chưa từng tham gia',
-    locationNote: '',
+    school: '',
+    skill: '',
+    note: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setApiError('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setApiError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setApiError('Mật khẩu xác nhận không khớp!');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const payload = {
+        fullname: formData.fullname,
+        dob: formData.dob,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        studentId: formData.studentId,
+        school: formData.school,
+        skill: formData.skill,
+        note: formData.note,
+      };
+
+      const response = await fetch('http://localhost:8080/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        const msg = await response.text();
+        setApiError(msg || 'Đăng ký thất bại, vui lòng thử lại!');
+      }
+    } catch {
+      setApiError('Không kết nối được với server!');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -79,7 +120,7 @@ export default function SignUpPage() {
             <div className="signup-success">
               <div className="success-check">✓</div>
               <h2>Đăng ký thành công!</h2>
-              <p>Cảm ơn bạn <strong>{formData.fullName}</strong> đã đăng ký tham gia Mùa Hè Xanh 2026. Ban Chỉ Huy sẽ liên hệ với bạn qua email <strong>{formData.email}</strong> trong thời gian sớm nhất.</p>
+              <p>Cảm ơn bạn <strong>{formData.fullname}</strong> đã đăng ký tham gia Mùa Hè Xanh 2026. Ban Chỉ Huy sẽ liên hệ với bạn qua email <strong>{formData.email}</strong> trong thời gian sớm nhất.</p>
               <button className="btn-primary btn-large" onClick={() => navigate('/')}>Trở về Trang chủ</button>
             </div>
           ) : (
@@ -90,16 +131,17 @@ export default function SignUpPage() {
               </div>
 
               <form className="signup-form-main" onSubmit={handleSubmit}>
-                <div className="form-section-title">Thông tin cá nhân & Liên hệ</div>
+                {/* -------- Thông tin cá nhân -------- */}
+                <div className="form-section-title">Thông tin cá nhân &amp; Liên hệ</div>
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="fullName">Họ và tên</label>
+                    <label htmlFor="fullname">Họ và tên</label>
                     <input
                       type="text"
-                      id="fullName"
-                      name="fullName"
-                      value={formData.fullName}
+                      id="fullname"
+                      name="fullname"
+                      value={formData.fullname}
                       onChange={handleChange}
                       required
                       placeholder="Nguyễn Văn A"
@@ -159,12 +201,12 @@ export default function SignUpPage() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="university">Trường ĐH / Cao đẳng</label>
+                    <label htmlFor="school">Trường ĐH / Cao đẳng</label>
                     <input
                       type="text"
-                      id="university"
-                      name="university"
-                      value={formData.university}
+                      id="school"
+                      name="school"
+                      value={formData.school}
                       onChange={handleChange}
                       required
                       placeholder="Đại học Bách Khoa"
@@ -172,37 +214,82 @@ export default function SignUpPage() {
                   </div>
                 </div>
 
-                <div className="form-section-title" style={{ marginTop: '1.5rem' }}>Năng lực & Nguyện vọng</div>
+                {/* -------- Tài khoản -------- */}
+                <div className="form-section-title" style={{ marginTop: '1.5rem' }}>Tạo tài khoản</div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="password">Mật khẩu</label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                      placeholder="Tối thiểu 6 ký tự"
+                      minLength={6}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                      placeholder="Nhập lại mật khẩu"
+                      minLength={6}
+                    />
+                  </div>
+                </div>
+
+                {/* -------- Năng lực & Nguyện vọng -------- */}
+                <div className="form-section-title" style={{ marginTop: '1.5rem' }}>Năng lực &amp; Nguyện vọng</div>
 
                 <div className="form-group">
-                  <label htmlFor="skills">Thế mạnh / Kỹ năng nổi bật</label>
+                  <label htmlFor="skill">Thế mạnh / Kỹ năng nổi bật</label>
                   <input
                     type="text"
-                    id="skills"
-                    name="skills"
-                    value={formData.skills}
+                    id="skill"
+                    name="skill"
+                    value={formData.skill}
                     onChange={handleChange}
                     placeholder="Văn nghệ, thiết kế, xây dựng, nhiếp ảnh, MC..."
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="locationNote">Địa bàn công tác mong muốn (hoặc yêu cầu đặc biệt)</label>
+                  <label htmlFor="note">Địa bàn công tác mong muốn (hoặc yêu cầu đặc biệt)</label>
                   <textarea
-                    id="locationNote"
-                    name="locationNote"
-                    value={formData.locationNote}
+                    id="note"
+                    name="note"
+                    value={formData.note}
                     onChange={handleChange}
-                    required
-                    placeholder="Ghi rõ mặt trận bạn muốn tham gia (VD: Tây Nguyên, Miền Tây...) hoặc lưu ý riêng (VD: Muốn vào đội hình dạy học...)"
+                    placeholder="Ghi rõ mặt trận bạn muốn tham gia (VD: Tây Nguyên, Miền Tây...) hoặc lưu ý riêng"
                     rows={4}
                     style={{ resize: 'vertical' }}
                   ></textarea>
                 </div>
 
-                <button type="submit" className="btn-primary btn-submit" style={{ marginTop: '1.5rem' }}>
-                  Xác nhận đăng ký
+                {apiError && (
+                  <p style={{ color: 'red', marginTop: '0.75rem', fontWeight: 500 }}>{apiError}</p>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn-primary btn-submit"
+                  style={{ marginTop: '1.5rem' }}
+                  disabled={loading}
+                >
+                  {loading ? 'Đang xử lý...' : 'Xác nhận đăng ký'}
                 </button>
+
+                <p style={{ marginTop: '1rem', textAlign: 'center' }}>
+                  Đã có tài khoản? <Link to="/dang-nhap">Đăng nhập ngay</Link>
+                </p>
               </form>
             </>
           )}
