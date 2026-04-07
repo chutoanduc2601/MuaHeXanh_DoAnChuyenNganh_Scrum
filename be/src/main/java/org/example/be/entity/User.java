@@ -34,4 +34,7 @@ public class User {
 
     @Column(columnDefinition = "TEXT")
     private String note;
+    // BỔ SUNG TRƯỜNG ROLE TẠI ĐÂY
+    @Column(name = "role", nullable = false)
+    private String role = "user";
 }

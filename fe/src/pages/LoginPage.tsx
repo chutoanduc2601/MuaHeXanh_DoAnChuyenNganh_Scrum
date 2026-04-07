@@ -17,10 +17,20 @@ const LoginPage = () => {
         body: JSON.stringify({ username, password }),
       });
 
+
       if (response.ok) {
         const user = await response.json();
+
+        // Lưu thông tin user vào localStorage để sử dụng cho các trang sau
         localStorage.setItem("user", JSON.stringify(user));
-        navigate("/"); // Chuyển về trang chủ
+
+        // KIỂM TRA ROLE ĐỂ ĐIỀU HƯỚNG
+        // Giả sử Backend trả về field 'role' trong object user (ví dụ: user.role)
+        if (user.role === "leader") {
+          navigate("/leader-dashboard"); // Chuyển tới trang quản lý dự án/sản phẩm của Leader
+        } else {
+          navigate("/"); // Các role khác (như Admin hoặc Tình nguyện viên) về trang chủ
+        }
       } else {
         setError("Email hoặc mật khẩu không chính xác!");
       }

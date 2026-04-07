@@ -1,0 +1,103 @@
+/* Container chính */
+.project-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Nút quay lại */
+.btn-back {
+    background-color: #f8f9fa;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background-color: #e2e6ea;
+    color: #212529;
+}
+
+/* Tiêu đề dự án */
+.project-detail-container h2 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 10px;
+    border-left: 5px solid #28a745; /* Màu xanh lá đặc trưng Mùa Hè Xanh */
+    padding-left: 15px;
+}
+
+.project-detail-container hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* Lưới hiển thị thông tin */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia làm 2 cột */
+    gap: 20px;
+}
+
+/* Các đoạn văn bản trong lưới */
+.detail-grid p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    margin: 0;
+    padding: 10px;
+    background: #fcfcfc;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.detail-grid p strong {
+    color: #333;
+    display: inline-block;
+    width: 150px; /* Độ rộng cố định cho nhãn bên trái */
+}
+
+/* Ô mô tả chiếm toàn bộ chiều rộng */
+.detail-grid p:first-child {
+    grid-column: span 2;
+    background: #f8fff9;
+    border: 1px dashed #c3e6cb;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+/* Trạng thái PENDING */
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Responsive cho điện thoại */
+@media (max-width: 600px) {
+    .detail-grid {
+        grid-template-columns: 1fr; /* Chuyển thành 1 cột trên mobile */
+    }
+
+    .detail-grid p:first-child {
+        grid-column: span 1;
+    }
+
+    .detail-grid p strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
