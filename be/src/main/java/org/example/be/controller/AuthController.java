@@ -29,11 +29,11 @@ public class AuthController {
         String rawPassword = loginData.get("password");
 
         Optional<User> userOptional = userRepository.findByEmail(email);
-
-        // BCrypt verify: so sánh raw password với hash đã lưu trong DB
         if (userOptional.isPresent() && rawPassword != null
                 && passwordEncoder.matches(rawPassword, userOptional.get().getPassword())) {
-            return ResponseEntity.ok(userOptional.get());
+            User user = userOptional.get();
+            // Trả về toàn bộ object user (bao gồm cả trường role)
+            return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(401).body("Email hoặc mật khẩu không chính xác!");
         }
