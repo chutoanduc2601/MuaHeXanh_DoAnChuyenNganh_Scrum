@@ -1,7 +1,8 @@
 import React from 'react';
 import '../../assets/css/HomeProject.css';
 import { useNavigate } from 'react-router-dom';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const HomeProject: React.FC = () => {
     const navigate = useNavigate(); // 2. Khởi tạo hàm navigate
@@ -25,6 +26,13 @@ const HomeProject: React.FC = () => {
                     <span className="icon-wrapper">📊</span>
                     <h3>Quản Lý Dự Án</h3>
                     <p>Xem danh sách, chỉnh sửa hoặc xóa dự án.</p>
+                    <span className="btn-navigate">Xem danh sách</span>
+                </div>
+
+                <div className="menu-card" onClick={() => navigate('/projects-awaiting-approval')}>
+                    <span className="icon-wrapper"><i className="bi bi-hourglass-split"></i></span>
+                    <h3>Quản Lý Dự Án</h3>
+                    <p>Xác nhận dự án.</p>
                     <span className="btn-navigate">Xem danh sách</span>
                 </div>
             </div>

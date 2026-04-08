@@ -13,6 +13,7 @@ import ProjectList from "./components/ProjectComponent/ProjectList.tsx";
 import HomeProject from "./components/ProjectComponent/HomeProject.tsx";
 import ProjectDetail from "./components/ProjectComponent/ProjectDetail.tsx";
 import EditProject from "./components/ProjectComponent/EditProject.tsx";
+import ProjectAwaitingApproval from "./components/ProjectComponent/ProjectAwaitingApproval.tsx";
 
 function HomePage() {
   return (
@@ -40,6 +41,7 @@ function App() {
         {/* CÁC TRANG DÀNH CHO LEADER */}
         <Route path="/leader-dashboard" element={<HomeProject />} />
         <Route path="/create-project" element={<ProjectForm />} />
+        <Route path="/projects-awaiting-approval" element={<ProjectAwaitingApproval />} />
         <Route path="/manage-projects" element={<ProjectList />} />
         <Route path="/view-project/:id" element={<ProjectDetail />} />
         <Route path="/edit-project/:id" element={<EditProject />} />

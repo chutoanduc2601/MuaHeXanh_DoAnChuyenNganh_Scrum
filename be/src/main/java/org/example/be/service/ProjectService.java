@@ -46,4 +46,25 @@ public class ProjectService {
         // 3. Lưu lại (Spring Data JPA save() sẽ thực hiện UPDATE nếu Object đã có ID)
         return projectRepository.save(project);
     }
+
+    // ======= APPROVE =======
+    public Project approveProject(Integer id) {
+        Project project = getProjectById(id);
+        project.setStatus("APPROVED");
+        project.setRejectReason(null); // clear lý do cũ nếu có
+        return projectRepository.save(project);
+    }
+
+    // ======= REJECT =======
+    public Project rejectProject(Integer id, String reason) {
+        Project project = getProjectById(id);
+        project.setStatus("REJECTED");
+        project.setRejectReason(reason);
+        return projectRepository.save(project);
+    }
+
+    public List<Project> getProjectsByStatus(String status) {
+        return projectRepository.findByStatus(status);
+    }
+
 }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Projects")
+@Table(name = "projects")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +48,7 @@ public class Project {
     @Column(name = "status")
     @JsonProperty("status")
     private String status = "PENDING";
+
+    @Column(name = "reject_reason", columnDefinition = "NVARCHAR(MAX)")
+    private String rejectReason;
 }
