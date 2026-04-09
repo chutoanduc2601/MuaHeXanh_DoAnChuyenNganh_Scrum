@@ -155,6 +155,20 @@ export default function Navbar() {
                   {/* Divider */}
                   <div style={{ height: '1px', backgroundColor: '#f3f4f6' }} />
 
+                  {user.role === "admin" && (
+                      <Link
+                          style={{
+                            display: 'block',
+                            padding: '11px 16px',
+                            color: "black",
+                            fontWeight: '500',
+                            fontSize: '14px',
+                            textDecoration: 'none',
+                            transition: 'background-color 0.15s',
+                          }}
+                          to="/projects-awaiting-approval">Duyệt dự án</Link>
+                  )}
+
                   {/* Logout */}
                   <button
                     onClick={handleLogout}
