@@ -13,6 +13,7 @@ import ProjectList from "./components/ProjectComponent/ProjectList.tsx";
 import HomeProject from "./components/ProjectComponent/HomeProject.tsx";
 import ProjectDetail from "./components/ProjectComponent/ProjectDetail.tsx";
 import EditProject from "./components/ProjectComponent/EditProject.tsx";
+import LeaderCandidatePage from './pages/LeaderCandidatePage';
 
 function HomePage() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/manage-projects" element={<ProjectList />} />
         <Route path="/view-project/:id" element={<ProjectDetail />} />
         <Route path="/edit-project/:id" element={<EditProject />} />
+        <Route path="/project/:id/candidates" element={<LeaderCandidatePage />} />
     </Routes>
 
 

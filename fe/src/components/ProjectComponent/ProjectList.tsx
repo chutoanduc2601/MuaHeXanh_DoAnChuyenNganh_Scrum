@@ -49,12 +49,12 @@ const ProjectList: React.FC = () => {
 
     const handleView = (id: number) => navigate(`/view-project/${id}`);
     const handleEdit = (id: number) => navigate(`/edit-project/${id}`);
+    const handleCandidates = (id: number) => navigate(`/project/${id}/candidates`);
 
     if (loading) return <div style={{textAlign: 'center', padding: '50px'}}>Đang tải dữ liệu từ máy chủ...</div>;
 
     return (
         <div className="project-list-container">
-            {/* Header với nút Quay lại Dashboard */}
             <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
                 <button
                     onClick={() => navigate('/leader-dashboard')}
@@ -104,6 +104,7 @@ const ProjectList: React.FC = () => {
                             <td className="action-btns">
                                 <button className="btn-view" onClick={() => handleView(project.id)}>Xem</button>
                                 <button className="btn-edit" onClick={() => handleEdit(project.id)}>Sửa</button>
+                                <button onClick={() => handleCandidates(project.id)}>Xem ứng viên</button>
                                 <button className="btn-delete" onClick={() => handleDelete(project.id)}>Xóa</button>
                             </td>
                         </tr>
