@@ -32,6 +32,8 @@ public class AuthController {
         if (userOptional.isPresent() && rawPassword != null
                 && passwordEncoder.matches(rawPassword, userOptional.get().getPassword())) {
             User user = userOptional.get();
+            // Xóa password trước khi trả
+            user.setPassword(null);
             // Trả về toàn bộ object user (bao gồm cả trường role)
             return ResponseEntity.ok(user);
         } else {

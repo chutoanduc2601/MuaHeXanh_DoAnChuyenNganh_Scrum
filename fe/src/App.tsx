@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -13,40 +13,52 @@ import ProjectList from "./components/ProjectComponent/ProjectList.tsx";
 import HomeProject from "./components/ProjectComponent/HomeProject.tsx";
 import ProjectDetail from "./components/ProjectComponent/ProjectDetail.tsx";
 import EditProject from "./components/ProjectComponent/EditProject.tsx";
+import ProjectAwaitingApproval from "./components/ProjectComponent/ProjectAwaitingApproval.tsx";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function HomePage() {
-  return (
-    <div className="app-container">
-      <Navbar />
-      <main>
-        <Hero />
-        <Features />
-        <Gallery />
+    return (
+        <div className="app-container">
+            <Navbar/>
+            <main>
+                <Hero/>
+                <Features/>
+                <Gallery/>
 
-      </main>
-      <Footer />
-    </div>
-  );
+            </main>
+            <Footer/>
+        </div>
+    );
 }
 
 function App() {
-  return (
-    <Routes>
-        {/* Trang dành cho sinh viên/người dùng chung */}
-      <Route path="/" element={<HomePage />} />
-        {/* Trang đăng nhập/đăng ký */}
-      <Route path="/dang-ky" element={<SignUpPage />} />
-      <Route path="/dang-nhap" element={<LoginPage />} />
-        {/* CÁC TRANG DÀNH CHO LEADER */}
-        <Route path="/leader-dashboard" element={<HomeProject />} />
-        <Route path="/create-project" element={<ProjectForm />} />
-        <Route path="/manage-projects" element={<ProjectList />} />
-        <Route path="/view-project/:id" element={<ProjectDetail />} />
-        <Route path="/edit-project/:id" element={<EditProject />} />
-    </Routes>
+    return (
+        <Routes>
+            {/* Trang dành cho sinh viên/người dùng chung */}
+            <Route path="/" element={<HomePage/>}/>
+            {/* Trang đăng nhập/đăng ký */}
+            <Route path="/dang-ky" element={<SignUpPage/>}/>
+            <Route path="/dang-nhap" element={<LoginPage/>}/>
+            {/* CÁC TRANG DÀNH CHO LEADER */}
+            <Route path="/leader-dashboard" element={<HomeProject/>}/>
+            <Route path="/create-project" element={<ProjectForm/>}/>
+
+            <Route path="/manage-projects" element={<ProjectList/>}/>
+            <Route path="/view-project/:id" element={<ProjectDetail/>}/>
+            <Route path="/edit-project/:id" element={<EditProject/>}/>
+            {/* CÁC TRANG DÀNH CHO ADMIN */}
+            <Route
+                path="/projects-awaiting-approval"
+                element={
+                    <ProtectedRoute role="admin">
+                        <ProjectAwaitingApproval/>
+                    </ProtectedRoute>
+                }
+            />
+        </Routes>
 
 
-  );
+    );
 }
 
 export default App;
