@@ -72,7 +72,7 @@ export default function SignUpPage() {
       {/* Left panel */}
       <div className="signup-left-panel">
         <div className="signup-left-inner">
-          <Link to="/" className="logo signup-logo">GreenSummers</Link>
+          <Link to="/" className="signup-logo">GreenSummers</Link>
           <div className="signup-left-content">
             <h1>Chiến dịch<br />Mùa Hè Xanh<br />2026</h1>
             <p>Gia nhập đội ngũ tình nguyện viên, mang sức trẻ và tri thức đến những vùng đất cần sự đóng góp của bạn.</p>

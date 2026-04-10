@@ -9,6 +9,7 @@ import './App.css';
 import './assets/css/LoginPage.css'
 import LoginPage from './pages/LoginPage';
 import PublicProjectsPage from './pages/PublicProjectsPage';
+import MyProjectsPage from './pages/MyProjectsPage';
 import ProjectForm from "./components/ProjectComponent/ProjectForm.tsx";
 import ProjectList from "./components/ProjectComponent/ProjectList.tsx";
 import HomeProject from "./components/ProjectComponent/HomeProject.tsx";
@@ -41,6 +42,7 @@ function App() {
             <Route path="/dang-ky" element={<SignUpPage/>}/>
             <Route path="/dang-nhap" element={<LoginPage/>}/>
             <Route path="/du-an" element={<PublicProjectsPage/>}/>
+            <Route path="/my-projects" element={<MyProjectsPage/>}/>
             {/* CÁC TRANG DÀNH CHO LEADER */}
             <Route path="/leader-dashboard" element={<HomeProject/>}/>
             <Route path="/create-project" element={<ProjectForm/>}/>
