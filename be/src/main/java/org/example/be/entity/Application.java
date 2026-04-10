@@ -2,30 +2,37 @@ package org.example.be.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "applications")
+@Table(
+        name = "applications",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "project_id"})
+        }
+)
 @Data
 public class Application {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    // Sinh viên apply
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    // Project được apply
+    @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    // PENDING / JOINED / REJECTED
     @Column(nullable = false)
-    private String status = "PENDING"; // PENDING, APPROVED, REJECTED
+    private String status = "PENDING";
 
-    @Column(name = "applied_date")
-    private LocalDateTime appliedDate = LocalDateTime.now();
-    
-    @Column(name = "reject_reason", columnDefinition = "TEXT")
-    private String rejectReason;
+    @Column(name = "applied_at")
+    private LocalDateTime appliedAt = LocalDateTime.now();
 }

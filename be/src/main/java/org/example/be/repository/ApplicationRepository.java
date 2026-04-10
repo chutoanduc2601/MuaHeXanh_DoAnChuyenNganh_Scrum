@@ -1,15 +1,18 @@
 package org.example.be.repository;
 
 import org.example.be.entity.Application;
+import org.example.be.entity.Project;
+import org.example.be.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface ApplicationRepository extends JpaRepository<Application, Integer> {
-    List<Application> findByUserId(Long userId);
+public interface ApplicationRepository extends JpaRepository<Application, Long> {
+
     List<Application> findByProjectId(Integer projectId);
-    Application findByUserIdAndProjectId(Long userId, Integer projectId);
+
     long countByProjectIdAndStatus(Integer projectId, String status);
+
+    Optional<Application> findByUserAndProject(User user, Project project);
 }

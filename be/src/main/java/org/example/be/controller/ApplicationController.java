@@ -1,10 +1,10 @@
 package org.example.be.controller;
 
-import org.example.be.dto.ApplicationRequest;
-import org.example.be.entity.Application;
+import org.example.be.dto.ApplicationRequestDTO;
+import org.example.be.dto.ApplicationResponseDTO;
+import org.example.be.dto.UpdateApplicationStatusDTO;
 import org.example.be.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,18 +18,24 @@ public class ApplicationController {
     @Autowired
     private ApplicationService applicationService;
 
-    @PostMapping("/apply")
-    public ResponseEntity<?> applyProject(@RequestBody ApplicationRequest request) {
-        try {
-            Application app = applicationService.applyProject(request.getUserId(), request.getProjectId());
-            return ResponseEntity.ok(app);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    // Sinh viên apply project
+    @PostMapping
+    public ResponseEntity<ApplicationResponseDTO> applyToProject(@RequestBody ApplicationRequestDTO requestDTO) {
+        return ResponseEntity.ok(applicationService.applyToProject(requestDTO));
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Application>> getUserApplications(@PathVariable Long userId) {
-        return ResponseEntity.ok(applicationService.getApplicationsByUser(userId));
+    // Leader xem danh sách ứng viên của project
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<ApplicationResponseDTO>> getApplicationsByProject(@PathVariable Integer projectId) {
+        return ResponseEntity.ok(applicationService.getApplicationsByProject(projectId));
+    }
+
+    // Leader duyệt / từ chối
+    @PutMapping("/{applicationId}/status")
+    public ResponseEntity<ApplicationResponseDTO> updateApplicationStatus(
+            @PathVariable Long applicationId,
+            @RequestBody UpdateApplicationStatusDTO requestDTO
+    ) {
+        return ResponseEntity.ok(applicationService.updateStatus(applicationId, requestDTO));
     }
 }

@@ -1,5 +1,8 @@
 package org.example.be.service;
 
+import org.example.be.dto.ApplicationRequestDTO;
+import org.example.be.dto.ApplicationResponseDTO;
+import org.example.be.dto.UpdateApplicationStatusDTO;
 import org.example.be.entity.Application;
 import org.example.be.entity.Project;
 import org.example.be.entity.User;
@@ -9,7 +12,6 @@ import org.example.be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,73 +21,82 @@ public class ApplicationService {
     private ApplicationRepository applicationRepository;
 
     @Autowired
-    private ProjectRepository projectRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
-    public Application applyProject(Long userId, Integer projectId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy sinh viên"));
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy dự án"));
+    @Autowired
+    private ProjectRepository projectRepository;
 
-        // 1. Kiểm tra trùng lặp
-        if (applicationRepository.findByUserIdAndProjectId(userId, projectId) != null) {
-            throw new RuntimeException("Bạn đã đăng ký dự án này rồi!");
-        }
+    public ApplicationResponseDTO applyToProject(ApplicationRequestDTO requestDTO) {
+        User user = userRepository.findById(requestDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy user với ID: " + requestDTO.getUserId()));
 
-        // 2. Kiểm tra số lượng
-        long approvedCount = applicationRepository.countByProjectIdAndStatus(projectId, "APPROVED");
-        if (project.getRequiredStudents() != null && approvedCount >= project.getRequiredStudents()) {
-            throw new RuntimeException("Dự án đã đủ số lượng tình nguyện viên!");
-        }
+        Project project = projectRepository.findById(requestDTO.getProjectId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy project với ID: " + requestDTO.getProjectId()));
 
-        // 3. Kiểm tra trùng lịch
-        List<Application> userApplications = applicationRepository.findByUserId(userId);
-        LocalDate start1 = project.getStartDate();
-        LocalDate end1 = project.getEndDate();
+        applicationRepository.findByUserAndProject(user, project).ifPresent(app -> {
+            throw new RuntimeException("Sinh viên đã đăng ký dự án này rồi!");
+        });
 
-        if (start1 != null && end1 != null) {
-            for (Application app : userApplications) {
-                // Theo yêu cầu: Loại trừ các dự án bị REJECTED
-                if ("REJECTED".equals(app.getStatus())) {
-                    continue;
-                }
-
-                LocalDate start2 = app.getProject().getStartDate();
-                LocalDate end2 = app.getProject().getEndDate();
-
-                if (start2 != null && end2 != null) {
-                    // Công thức overlap: start1 <= end2 && start2 <= end1
-                    if (start1.isBefore(end2.plusDays(1)) && start2.isBefore(end1.plusDays(1))) {
-                        throw new RuntimeException("Trùng lịch với dự án: " + app.getProject().getProjectName());
-                    }
-                }
-            }
-        }
-
-        // Tạo application
         Application application = new Application();
         application.setUser(user);
         application.setProject(project);
         application.setStatus("PENDING");
 
         Application saved = applicationRepository.save(application);
-
-        // Mô phỏng Gửi Email
-        System.out.println("=========================================================");
-        System.out.println("MÔ PHỎNG HỆ THỐNG GỬI EMAIL TỰ ĐỘNG");
-        System.out.println("Gửi đến: " + user.getEmail());
-        System.out.println("Tiêu đề: Đăng ký thành công dự án " + project.getProjectName());
-        System.out.println(
-                "Nội dung: Chào " + user.getFullname() + ",\nĐơn đăng ký của bạn đang chờ thủ lĩnh phê duyệt.");
-        System.out.println("=========================================================");
-
-        return saved;
+        return mapToDTO(saved);
     }
 
-    public List<Application> getApplicationsByUser(Long userId) {
-        return applicationRepository.findByUserId(userId);
+    public List<ApplicationResponseDTO> getApplicationsByProject(Integer projectId) {
+        List<Application> applications = applicationRepository.findByProjectId(projectId);
+        return applications.stream().map(this::mapToDTO).toList();
+    }
+
+    public ApplicationResponseDTO updateStatus(Long applicationId, UpdateApplicationStatusDTO requestDTO) {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn ứng tuyển với ID: " + applicationId));
+
+        String newStatus = requestDTO.getStatus();
+        if (newStatus == null || newStatus.isBlank()) {
+            throw new RuntimeException("Status không được để trống");
+        }
+
+        newStatus = newStatus.toUpperCase();
+
+        if (!newStatus.equals("APPROVED") && !newStatus.equals("REJECTED") && !newStatus.equals("PENDING")) {
+            throw new RuntimeException("Status không hợp lệ. Chỉ chấp nhận: PENDING, APPROVED, REJECTED");
+        }
+
+        if (newStatus.equals("APPROVED")) {
+            Project project = application.getProject();
+            long joinedCount = applicationRepository.countByProjectIdAndStatus(project.getId(), "APPROVED");
+
+            if (project.getRequiredStudents() != null && joinedCount >= project.getRequiredStudents()) {
+                throw new RuntimeException("Dự án đã đủ số lượng tình nguyện viên");
+            }
+        }
+
+        application.setStatus(newStatus);
+        Application updated = applicationRepository.save(application);
+        return mapToDTO(updated);
+    }
+
+    private ApplicationResponseDTO mapToDTO(Application application) {
+        User user = application.getUser();
+        Project project = application.getProject();
+
+        return new ApplicationResponseDTO(
+                application.getId(),
+                user.getId(),
+                user.getFullname(),
+                user.getStudentId(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getSchool(),
+                user.getSkill(),
+                user.getNote(),
+                project.getId(),
+                project.getProjectName(),
+                application.getStatus()
+        );
     }
 }
