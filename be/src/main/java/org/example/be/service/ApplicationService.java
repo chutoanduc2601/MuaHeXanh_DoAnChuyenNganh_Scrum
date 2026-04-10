@@ -62,13 +62,13 @@ public class ApplicationService {
 
         newStatus = newStatus.toUpperCase();
 
-        if (!newStatus.equals("JOINED") && !newStatus.equals("REJECTED") && !newStatus.equals("PENDING")) {
-            throw new RuntimeException("Status không hợp lệ. Chỉ chấp nhận: PENDING, JOINED, REJECTED");
+        if (!newStatus.equals("APPROVED") && !newStatus.equals("REJECTED") && !newStatus.equals("PENDING")) {
+            throw new RuntimeException("Status không hợp lệ. Chỉ chấp nhận: PENDING, APPROVED, REJECTED");
         }
 
-        if (newStatus.equals("JOINED")) {
+        if (newStatus.equals("APPROVED")) {
             Project project = application.getProject();
-            long joinedCount = applicationRepository.countByProjectIdAndStatus(project.getId(), "JOINED");
+            long joinedCount = applicationRepository.countByProjectIdAndStatus(project.getId(), "APPROVED");
 
             if (project.getRequiredStudents() != null && joinedCount >= project.getRequiredStudents()) {
                 throw new RuntimeException("Dự án đã đủ số lượng tình nguyện viên");

@@ -104,7 +104,12 @@ const ProjectList: React.FC = () => {
                             <td className="action-btns">
                                 <button className="btn-view" onClick={() => handleView(project.id)}>Xem</button>
                                 <button className="btn-edit" onClick={() => handleEdit(project.id)}>Sửa</button>
-                                <button onClick={() => handleCandidates(project.id)}>Xem ứng viên</button>
+                                <button
+                                    className="btn-candidates"
+                                    onClick={() => handleCandidates(project.id)}
+                                >
+                                    Xem ứng viên
+                                </button>
                                 <button className="btn-delete" onClick={() => handleDelete(project.id)}>Xóa</button>
                             </td>
                         </tr>
