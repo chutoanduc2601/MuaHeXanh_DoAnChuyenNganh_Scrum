@@ -57,7 +57,7 @@ function CandidateList({
                     ) : (
                         applications.map((app) => {
                             const disableAccept =
-                                app.status === "JOINED" ||
+                                app.status === "APPROVED" ||
                                 joinedCount >= requiredStudents ||
                                 loadingActionId === app.id;
 
@@ -80,13 +80,13 @@ function CandidateList({
                               fontSize: "12px",
                               fontWeight: 600,
                               background:
-                                  app.status === "JOINED"
+                                  app.status === "APPROVED"
                                       ? "#d4edda"
                                       : app.status === "REJECTED"
                                           ? "#f8d7da"
                                           : "#fff3cd",
                               color:
-                                  app.status === "JOINED"
+                                  app.status === "APPROVED"
                                       ? "#155724"
                                       : app.status === "REJECTED"
                                           ? "#721c24"

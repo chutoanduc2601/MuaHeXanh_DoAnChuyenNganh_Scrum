@@ -25,7 +25,7 @@ function LeaderCandidatePage() {
     const [loadingActionId, setLoadingActionId] = useState<number | null>(null);
 
     const joinedCount = useMemo(
-        () => applications.filter((app) => app.status === "JOINED").length,
+        () => applications.filter((app) => app.status === "APPROVED").length,
         [applications]
     );
 
@@ -66,7 +66,7 @@ function LeaderCandidatePage() {
 
         try {
             setLoadingActionId(applicationId);
-            await updateApplicationStatus(applicationId, "JOINED");
+            await updateApplicationStatus(applicationId, "APPROVED");
             await fetchData();
             Swal.fire("Thành công", "Đã chấp nhận ứng viên", "success");
         } catch (error: any) {
