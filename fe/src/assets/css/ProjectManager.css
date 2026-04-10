@@ -7,6 +7,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
 .btn-view {
     background-color: #17a2b8; /* Màu xanh dương nhạt */
     color: white;
@@ -24,6 +25,38 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+}
+.btn-candidates {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: #fff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(8, 145, 178, 0.2);
+    white-space: nowrap;
+}
+
+.btn-candidates:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(8, 145, 178, 0.28);
+}
+
+.btn-candidates:active {
+    transform: scale(0.97);
+}
+.action-btns {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.action-btns button {
+    white-space: nowrap;
 }
 
 .table-projects th, .table-projects td {
