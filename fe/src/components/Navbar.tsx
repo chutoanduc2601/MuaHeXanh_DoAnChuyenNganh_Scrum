@@ -35,6 +35,7 @@ export default function Navbar() {
         <div className="nav-links desktop-menu">
           <a href="#home">Trang chủ</a>
           <a href="#about">Ý nghĩa</a>
+          <Link to="/du-an">Dự án</Link>
           <a href="#gallery">Hình ảnh</a>
           <a href="#contact">Liên hệ</a>
         </div>
@@ -208,6 +209,7 @@ export default function Navbar() {
         <div className="mobile-menu">
           <a href="#home" onClick={() => setIsMenuOpen(false)}>Trang chủ</a>
           <a href="#about" onClick={() => setIsMenuOpen(false)}>Ý nghĩa</a>
+          <Link to="/du-an" onClick={() => setIsMenuOpen(false)}>Dự án</Link>
           <a href="#gallery" onClick={() => setIsMenuOpen(false)}>Hình ảnh</a>
           <a href="#contact" onClick={() => setIsMenuOpen(false)}>Liên hệ</a>
 
