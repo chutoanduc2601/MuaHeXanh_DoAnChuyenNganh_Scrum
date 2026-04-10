@@ -2,7 +2,6 @@ import React from 'react';
 import '../../assets/css/HomeProject.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const HomeProject: React.FC = () => {
     const navigate = useNavigate(); // 2. Khởi tạo hàm navigate
 
@@ -27,6 +26,7 @@ const HomeProject: React.FC = () => {
                     <p>Xem danh sách, chỉnh sửa hoặc xóa dự án.</p>
                     <span className="btn-navigate">Xem danh sách</span>
                 </div>
+
             </div>
         </div>
     );

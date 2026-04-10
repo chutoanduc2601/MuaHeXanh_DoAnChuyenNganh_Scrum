@@ -1,6 +1,8 @@
 package org.example.be.controller;
 
 import org.example.be.dto.ProjectRequestDTO;
+import org.example.be.dto.RejectRequest;
+import org.example.be.dto.ApproveRequest;
 import org.example.be.entity.Project;
 import org.example.be.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,11 @@ public class ProjectController {
         return projectService.getAllProjects();
     }
 
+    @GetMapping("/status/pending")
+    public ResponseEntity<List<Project>> getPendingProjects() {
+        return ResponseEntity.ok(projectService.getProjectsByStatus("PENDING"));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Project> getProject(@PathVariable Integer id) {
         return ResponseEntity.ok(projectService.getProjectById(id));
@@ -69,5 +76,18 @@ public class ProjectController {
         Project updatedProject = projectService.updateProject(id, projectDetails);
 
         return ResponseEntity.ok(updatedProject);
+    }
+
+    @PutMapping("/{id}/approve")
+    public ResponseEntity<Project> approveProject(@PathVariable Integer id) {
+        return ResponseEntity.ok(projectService.approveProject(id));
+    }
+
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<Project> rejectProject(
+            @PathVariable Integer id,
+            @RequestBody RejectRequest request
+    ) {
+        return ResponseEntity.ok(projectService.rejectProject(id, request.getReason()));
     }
 }
