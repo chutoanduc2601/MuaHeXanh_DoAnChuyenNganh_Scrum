@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<{ fullname: string; email?: string } | null>(() => {
+  const [user, setUser] = useState<{ fullname: string; email?: string; role?: string } | null>(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
@@ -35,6 +35,7 @@ export default function Navbar() {
         <div className="nav-links desktop-menu">
           <a href="#home">Trang chủ</a>
           <a href="#about">Ý nghĩa</a>
+          <Link to="/du-an">Dự án</Link>
           <a href="#gallery">Hình ảnh</a>
           <a href="#contact">Liên hệ</a>
         </div>
@@ -152,8 +153,27 @@ export default function Navbar() {
                     Hồ sơ của tôi
                   </Link>
 
-                  {/* Divider */}
                   <div style={{ height: '1px', backgroundColor: '#f3f4f6' }} />
+
+                  {user.role === 'user' && (
+                      <Link
+                          style={{
+                              display: 'block',
+                              padding: '11px 16px',
+                              color: '#059669',
+                              fontWeight: '500',
+                              fontSize: '14px',
+                              textDecoration: 'none',
+                              transition: 'background-color 0.15s',
+                          }}
+                          to="/my-projects"
+                          onClick={() => setShowDropdown(false)}
+                          onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f0fdf4')}
+                          onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                      >
+                          Dự án của tôi
+                      </Link>
+                  )}
 
                   {user.role === "admin" && (
                       <Link
@@ -208,6 +228,7 @@ export default function Navbar() {
         <div className="mobile-menu">
           <a href="#home" onClick={() => setIsMenuOpen(false)}>Trang chủ</a>
           <a href="#about" onClick={() => setIsMenuOpen(false)}>Ý nghĩa</a>
+          <Link to="/du-an" onClick={() => setIsMenuOpen(false)}>Dự án</Link>
           <a href="#gallery" onClick={() => setIsMenuOpen(false)}>Hình ảnh</a>
           <a href="#contact" onClick={() => setIsMenuOpen(false)}>Liên hệ</a>
 
@@ -260,6 +281,21 @@ export default function Navbar() {
                 >
                   Hồ sơ của tôi
                 </Link>
+
+                {user.role === 'user' && (
+                  <Link
+                    to="/my-projects"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      display: 'block', textAlign: 'center', padding: '11px',
+                      backgroundColor: '#d1fae5', color: '#047857',
+                      fontWeight: '600', borderRadius: '10px', textDecoration: 'none',
+                      fontSize: '15px',
+                    }}
+                  >
+                    Dự án của tôi
+                  </Link>
+                )}
 
                 <button
                   onClick={() => { handleLogout(); setIsMenuOpen(false); }}

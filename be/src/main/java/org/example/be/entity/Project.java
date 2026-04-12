@@ -21,7 +21,7 @@ public class Project {
     @JsonProperty("projectName")
     private String projectName;
 
-    @Column(name = "description", columnDefinition = "NVARCHAR(MAX)")
+    @Column(name = "description", columnDefinition = "TEXT")
     @JsonProperty("description")
     private String description;
 
@@ -33,7 +33,7 @@ public class Project {
     @JsonProperty("requiredStudents")
     private Integer requiredStudents;
 
-    @Column(name = "required_skills", columnDefinition = "NVARCHAR(MAX)")
+    @Column(name = "required_skills", columnDefinition = "TEXT")
     @JsonProperty("requiredSkills")
     private String requiredSkills;
 
@@ -49,6 +49,6 @@ public class Project {
     @JsonProperty("status")
     private String status = "PENDING";
 
-    @Column(name = "reject_reason", columnDefinition = "NVARCHAR(MAX)")
+    @Column(name = "reject_reason", columnDefinition = "TEXT")
     private String rejectReason;
 }

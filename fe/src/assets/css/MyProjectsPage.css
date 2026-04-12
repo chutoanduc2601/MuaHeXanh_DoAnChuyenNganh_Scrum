@@ -1,0 +1,153 @@
+.my-projects-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8fafc;
+}
+
+.my-projects-main {
+    flex: 1;
+    padding-top: 100px;
+    padding-bottom: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.my-page-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.my-page-header h1 {
+    font-size: 2.5rem;
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.my-page-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.applications-box {
+    padding: 0 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px dashed #cbd5e1;
+}
+
+.empty-state p {
+    font-size: 1.2rem;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.btn-explore {
+    padding: 12px 24px;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-explore:hover {
+    background: #059669;
+}
+
+.app-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.app-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    transition: transform 0.2s;
+}
+
+.app-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.app-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.app-card-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #1e293b;
+}
+
+.app-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-approved, .status-joined {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.app-card-body p {
+    margin: 8px 0;
+    color: #475569;
+}
+
+.app-card-body p strong {
+    color: #334155;
+}
+
+.reject-reason {
+    margin-top: 15px;
+    padding: 12px;
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+    color: #991b1b;
+    border-radius: 0 8px 8px 0;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f1f5f9;
+    border-top: 5px solid #10b981;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 60px auto;
+}

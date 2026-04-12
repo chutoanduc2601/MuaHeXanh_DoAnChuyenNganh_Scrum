@@ -96,7 +96,19 @@ public class ApplicationService {
                 user.getNote(),
                 project.getId(),
                 project.getProjectName(),
-                application.getStatus()
+                application.getStatus(),
+
+                // ======== TRUYỀN DỮ LIỆU TỪ ENTITY VÀO ========
+                application.getAppliedAt(),
+                project.getLocation(),
+                project.getStartDate(),
+                project.getEndDate(),
+                application.getRejectReason()
         );
+    }
+
+    public List<ApplicationResponseDTO> getApplicationsByUser(Long userId) {
+        List<Application> applications = applicationRepository.findByUserId(userId);
+        return applications.stream().map(this::mapToDTO).toList();
     }
 }
