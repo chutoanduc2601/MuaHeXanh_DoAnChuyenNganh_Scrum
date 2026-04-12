@@ -38,4 +38,10 @@ public class ApplicationController {
     ) {
         return ResponseEntity.ok(applicationService.updateStatus(applicationId, requestDTO));
     }
+
+    // Sinh viên xem danh sách các dự án mình đã apply
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ApplicationResponseDTO>> getApplicationsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(applicationService.getApplicationsByUser(userId));
+    }
 }
