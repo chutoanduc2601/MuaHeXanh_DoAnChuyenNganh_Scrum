@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Thêm để điều hướng
-import axios from 'axios'; // Thêm để gọi API
-import Swal from 'sweetalert2'; // Thêm để hiện thông báo đẹp
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+// Import ảnh nền
+import bgImage from '../../assets/images/pngt.jpg';
 import '../../assets/css/ProjectForm.css';
 
 interface ProjectData {
@@ -15,8 +17,8 @@ interface ProjectData {
 }
 
 const ProjectForm: React.FC = () => {
-    const navigate = useNavigate(); // Khởi tạo hook điều hướng
-    const [isSubmitting, setIsSubmitting] = useState(false); // Trạng thái chờ gửi
+    const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState<ProjectData>({
         projectName: '',
@@ -38,153 +40,109 @@ const ProjectForm: React.FC = () => {
         setIsSubmitting(true);
 
         try {
-            // 1. Gọi API Backend (Spring Boot)
             const response = await axios.post("http://localhost:8080/api/projects", formData);
 
             if (response.status === 200 || response.status === 201) {
-                // 2. Hiển thị thông báo thành công
-                await Swal.fire({
+                Swal.fire({
                     title: 'Thành công!',
-                    text: 'Dự án của bạn đã được đăng và đang chờ duyệt (PENDING).',
+                    text: 'Chiến dịch Mùa Hè Xanh đã được đăng ký!',
                     icon: 'success',
-                    confirmButtonText: 'Đến trang quản lý',
-                    confirmButtonColor: '#28a745',
-                    timer: 3000, // Tự đóng sau 3 giây
-                    timerProgressBar: true
+                    confirmButtonColor: '#059669'
                 });
-
-                // 3. Chuyển hướng tới trang Quản lý dự án
-                navigate('/manage-projects');
+                navigate('/leader-dashboard');
             }
-        } catch (error: any) {
-            console.error("Lỗi khi đăng dự án:", error);
-
-            // Thông báo lỗi nếu Backend gặp vấn đề
-            Swal.fire({
-                title: 'Thất bại!',
-                text: error.response?.data?.message || 'Không thể kết nối đến máy chủ.',
-                icon: 'error',
-                confirmButtonText: 'Thử lại'
-            });
+        } catch (error) {
+            Swal.fire('Lỗi!', 'Không thể kết nối máy chủ.', 'error');
         } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="project-form-container">
-            <div className="form-header">
-                <h2>Tạo Dự Án Tình Nguyện</h2>
-                <p>Thông tin sẽ được gửi đến hệ thống để phê duyệt</p>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Tên dự án</label>
-                    <input
-                        type="text"
-                        name="projectName"
-                        className="form-control"
-                        placeholder="Nhập tên dự án..."
-                        required
-                        value={formData.projectName}
-                        onChange={handleChange}
-                    />
+        <div
+            className="project-form-page-wrapper"
+            style={{ backgroundImage: `url(${bgImage})` }}
+        >
+            <div className="project-form-container-v2">
+                <div className="form-header-v2">
+                    <button
+                        type="button"
+                        className="btn-back-dashboard"
+                        onClick={() => navigate('/leader-dashboard')}
+                    >
+                        🌿 Quay Lại
+                    </button>
+                    <h2> ĐĂNG KÝ CHIẾN DỊCH MÙA HÈ XANH</h2>
                 </div>
 
-                <div className="form-group">
-                    <label>Mô tả công việc</label>
-                    <textarea
-                        name="description"
-                        className="form-control"
-                        placeholder="Mô tả chi tiết công việc..."
-                        required
-                        value={formData.description}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="form-row">
-                    <div className="form-group">
-                        <label>Địa điểm</label>
+                <form onSubmit={handleSubmit} className="project-main-form">
+                    <div className="form-group-v2">
+                        <label>Tên chiến dịch</label>
                         <input
                             type="text"
-                            name="location"
-                            className="form-control"
+                            name="projectName"
+                            placeholder="VD: Dạy học hè tại xã..."
                             required
-                            value={formData.location}
                             onChange={handleChange}
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label>Số lượng sinh viên</label>
-                        <input
-                            type="number"
-                            name="requiredStudents"
-                            className="form-control"
-                            min="1"
-                            required
-                            value={formData.requiredStudents}
+                    <div className="form-group-v2">
+                        <label>Mô tả hoạt động</label>
+                        <textarea
+                            name="description"
+                            rows={3}
+                            placeholder="Mô tả các công việc chính..."
                             onChange={handleChange}
-                        />
+                        ></textarea>
                     </div>
-                </div>
 
-                <div className="form-group">
-                    <label>Kỹ năng yêu cầu</label>
-                    <input
-                        type="text"
-                        name="requiredSkills"
-                        className="form-control"
-                        placeholder="Sức khỏe, giảng dạy..."
-                        value={formData.requiredSkills}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="form-row">
-                    <div className="form-group">
-                        <label>Ngày bắt đầu</label>
-                        <input
-                            type="date"
-                            name="startDate"
-                            className="form-control"
-                            required
-                            value={formData.startDate}
-                            onChange={handleChange}
-                        />
+                    <div className="form-row-v2">
+                        <div className="form-group-v2">
+                            <label>Địa điểm triển khai</label>
+                            <input type="text" name="location" required onChange={handleChange} />
+                        </div>
+                        <div className="form-group-v2">
+                            <label>Số lượng SV cần</label>
+                            <input type="number" name="requiredStudents" min="1" required onChange={handleChange} />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Ngày kết thúc</label>
-                        <input
-                            type="date"
-                            name="endDate"
-                            className="form-control"
-                            required
-                            value={formData.endDate}
-                            onChange={handleChange}
-                        />
+
+                    <div className="form-group-v2">
+                        <label>Kỹ năng yêu cầu</label>
+                        <input type="text" name="requiredSkills" placeholder="Kỹ năng sư phạm, văn nghệ..." onChange={handleChange} />
                     </div>
-                </div>
 
-                <button
-                    type="submit"
-                    className="btn-submit"
-                    disabled={isSubmitting}
-                >
-                    {isSubmitting ? 'ĐANG XỬ LÝ...' : 'ĐĂNG DỰ ÁN'}
-                </button>
+                    <div className="form-row-v2">
+                        <div className="form-group-v2">
+                            <label>Ngày bắt đầu</label>
+                            <input type="date" name="startDate" required onChange={handleChange} />
+                        </div>
+                        <div className="form-group-v2">
+                            <label>Ngày kết thúc</label>
+                            <input type="date" name="endDate" required onChange={handleChange} />
+                        </div>
+                    </div>
 
-                <button
-                    type="button"
-                    className="btn-cancel"
-                    onClick={() => navigate(-1)}
-                    style={{ marginTop: '10px', width: '100%', padding: '12px', background: '#ccc', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                >
-                    HỦY BỎ
-                </button>
-            </form>
+                    {/* Nút Hủy và Xác nhận nằm trên cùng 1 hàng */}
+                    <div className="form-actions-v2">
+                        <button
+                            type="button"
+                            className="btn-cancel-v2"
+                            onClick={() => navigate(-1)}
+                        >
+                            HỦY BỎ
+                        </button>
+                        <button
+                            type="submit"
+                            className="btn-submit-v2"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'ĐANG XỬ LÝ...' : 'XÁC NHẬN ĐĂNG KÝ'}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
