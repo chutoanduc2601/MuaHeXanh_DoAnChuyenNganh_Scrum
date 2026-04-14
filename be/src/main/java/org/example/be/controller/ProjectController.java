@@ -36,7 +36,12 @@ public class ProjectController {
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();
     }
-
+    // Trong ProjectController.java
+    @GetMapping("/status/pending")
+    public ResponseEntity<List<Project>> getPendingProjects() {
+        // Gọi hàm service đã được viết logic lọc isActive = 1
+        return ResponseEntity.ok(projectService.getProjectsByStatusAndActive("PENDING", 1));
+    }
     // Trong file ProjectController.java
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProject(

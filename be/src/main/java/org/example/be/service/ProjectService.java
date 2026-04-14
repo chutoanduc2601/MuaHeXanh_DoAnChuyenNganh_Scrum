@@ -36,7 +36,10 @@ public class ProjectService {
         project.setDeleteReason(reason);
         projectRepository.save(project);
     }
-
+    // Sửa lại trong ProjectService.java
+    public List<Project> getProjectsByStatusAndActive(String status, int isActive) {
+        return projectRepository.findByStatusAndIsActive(status, isActive);
+    }
 
     public Project updateProject(Integer id, Project projectDetails) {
         Project project = getProjectById(id);
