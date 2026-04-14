@@ -17,4 +17,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     Optional<Application> findByUserAndProject(User user, Project project);
 
     List<Application> findByUserId(Long userId);
+
+    List<Application> findByUserIdOrderByAppliedAtDesc(Long userId);
 }

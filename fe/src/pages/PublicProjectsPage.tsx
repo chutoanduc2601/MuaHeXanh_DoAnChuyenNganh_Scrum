@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -20,7 +20,6 @@ interface Project {
 
 export default function PublicProjectsPage() {
     const [projects, setProjects] = useState<Project[]>([]);
-    const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -30,7 +29,6 @@ export default function PublicProjectsPage() {
             try {
                 const response = await axios.get('http://localhost:8080/api/projects/status/approved');
                 setProjects(response.data);
-                setFilteredProjects(response.data);
             } catch (error) {
                 console.error("Lỗi khi tải dự án:", error);
             } finally {
@@ -90,7 +88,7 @@ export default function PublicProjectsPage() {
                 text: 'Hệ thống đã gửi email thông báo chi tiết đến bạn.',
                 confirmButtonColor: '#10b981',
             });
-            
+
         } catch (error: any) {
             const errorMsg = error.response?.data || 'Đã có lỗi xảy ra. Hãy thử lại.';
             Swal.fire({
@@ -105,7 +103,7 @@ export default function PublicProjectsPage() {
     return (
         <div className="public-projects-container">
             <Navbar />
-            
+
             <main className="projects-main">
                 <section className="projects-hero">
                     <h1>Chiến Dịch Mùa Hè Xanh</h1>
@@ -116,8 +114,8 @@ export default function PublicProjectsPage() {
                         <div className="loading-spinner"></div>
                     ) : (
                         <div className="projects-grid">
-                            {filteredProjects.length > 0 ? (
-                                filteredProjects.map((project) => (
+                            {projects.length > 0 ? (
+                                projects.map((project: Project) => (
                                     <div className="project-card" key={project.id}>
                                         <div className="card-header">
                                             <span className="location-badge">{project.location || 'Chưa cập nhật'}</span>
@@ -125,7 +123,7 @@ export default function PublicProjectsPage() {
                                         <div className="card-body">
                                             <h3>{project.projectName}</h3>
                                             <p className="project-desc">{project.description || 'Chưa có mô tả'}</p>
-                                            
+
                                             <div className="project-stats">
                                                 <div className="stat-item">
                                                     <strong>Cần tuyển:</strong>
@@ -144,7 +142,7 @@ export default function PublicProjectsPage() {
                                                 </div>
                                             )}
                                         </div>
-                                        
+
                                         <div className="card-footer">
                                             <button className="btn-register" onClick={() => handleRegisterClick(project.id)}>
                                                 Đăng Ký Tham Gia
