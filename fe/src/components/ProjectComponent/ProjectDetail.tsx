@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {  MapPin, Users, Wrench, Calendar, FileText } from 'lucide-react';
+import {  Leaf, MapPin, Users, Wrench, Calendar, FileText } from 'lucide-react';
 // Import ảnh nền
 import bgImage from '../../assets/images/pngt.jpg';
 import '../../assets/css/ProjectDetail.css';
@@ -44,7 +44,7 @@ const ProjectDetail: React.FC = () => {
                     {/* Nút quay lại */}
                     <div className="detail-navigation">
                         <button className="btn-back-mhx-detail" onClick={handleBack}>
-                           🌿 Quay Lại
+                            <Leaf /> Quay Lại
                         </button>
                     </div>
 

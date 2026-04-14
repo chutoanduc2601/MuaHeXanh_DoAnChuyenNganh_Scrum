@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Plus, Eye, Edit3, Users, Trash2, MapPin } from 'lucide-react';
+import { Leaf, Plus, Eye, Edit3, Users, Trash2, MapPin } from 'lucide-react';
 import Swal from 'sweetalert2'; // Đảm bảo đã import Swal
 import bgImage from '../../assets/images/pngt.jpg';
 import '../../assets/css/ProjectList.css';
@@ -91,7 +91,8 @@ const ProjectList: React.FC = () => {
                 <div className="mhx-container">
                     <div className="mhx-top-nav">
                         <button className="btn-back-dashboard-v3" onClick={() => navigate('/leader-dashboard')}>
-                            🌿 Quay Lại
+                            {/*🌿 Quay Lại*/}
+                            <Leaf /> Quay Lại
                         </button>
                     </div>
 

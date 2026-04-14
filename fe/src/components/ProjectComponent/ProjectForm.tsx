@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 // Import ảnh nền
 import bgImage from '../../assets/images/pngt.jpg';
 import '../../assets/css/ProjectForm.css';
+import { Leaf } from 'lucide-react';
 
 interface ProjectData {
     projectName: string;
@@ -70,7 +71,7 @@ const ProjectForm: React.FC = () => {
                         className="btn-back-dashboard"
                         onClick={() => navigate('/leader-dashboard')}
                     >
-                        🌿 Quay Lại
+                        <Leaf /> Quay Lại
                     </button>
                     <h2> ĐĂNG KÝ CHIẾN DỊCH MÙA HÈ XANH</h2>
                 </div>
