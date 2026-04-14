@@ -1,22 +1,32 @@
 package org.example.be.service;
 
 import org.example.be.entity.Project;
+import org.example.be.repository.ApplicationRepository;
 import org.example.be.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
 public class ProjectService {
-
+    @Autowired
+    private ApplicationRepository applicationRepository;
     @Autowired
     private ProjectRepository projectRepository;
-
     public Project createProject(Project project) {
         if (project.getStatus() == null) project.setStatus("PENDING");
         return projectRepository.save(project);
     }
+    @Transactional
+    public void deleteProject(Integer id) {
+        // 1. Xóa tất cả đơn đăng ký liên quan đến project này trước
+        applicationRepository.deleteByProjectId(id);
 
+        // 2. Sau đó mới xóa Project
+        projectRepository.deleteById(id);
+    }
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
@@ -26,9 +36,7 @@ public class ProjectService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy dự án ID: " + id));
     }
 
-    public void deleteProject(Integer id) {
-        projectRepository.deleteById(id);
-    }
+
     public Project updateProject(Integer id, Project projectDetails) {
         // 1. Tìm dự án cũ, nếu không thấy sẽ ném ngoại lệ (RuntimeException đã định nghĩa ở hàm getProjectById)
         Project project = getProjectById(id);
@@ -66,5 +74,6 @@ public class ProjectService {
     public List<Project> getProjectsByStatus(String status) {
         return projectRepository.findByStatus(status);
     }
+
 
 }

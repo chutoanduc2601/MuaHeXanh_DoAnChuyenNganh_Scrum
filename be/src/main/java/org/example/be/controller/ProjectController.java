@@ -61,9 +61,6 @@ public class ProjectController {
         projectService.deleteProject(id);
         return ResponseEntity.ok("Xóa thành công!");
     }
-    // Trong ProjectController.java
-
-    // Trong ProjectController.java
 
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@PathVariable Integer id, @RequestBody ProjectRequestDTO projectDTO) {
