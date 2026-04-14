@@ -15,4 +15,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     long countByProjectIdAndStatus(Integer projectId, String status);
 
     Optional<Application> findByUserAndProject(User user, Project project);
+
+    List<Application> findByUserId(Long userId);
+
+    List<Application> findByUserIdOrderByAppliedAtDesc(Long userId);
 }

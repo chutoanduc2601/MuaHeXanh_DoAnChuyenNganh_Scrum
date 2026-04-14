@@ -54,25 +54,18 @@ export default function MyProjectsPage() {
                         </div>
                     ) : (
                         <div className="app-grid">
-                            {applications.map(app => (
+                            {applications.map((app: any) => (
                                 <div className="app-card" key={app.id}>
                                     <div className="app-card-header">
-                                        <h3>{app.project?.projectName}</h3>
+                                        <h3>{app.projectName || 'Dự án không rõ'}</h3>
                                         <span className={`app-status status-${app.status?.toLowerCase()}`}>
-                                            {app.status === 'PENDING' ? 'Đang chờ duyệt' : 
-                                             (app.status === 'APPROVED') ? 'Đã trúng tuyển' : 'Bị từ chối'}
+                                            {app.status === 'PENDING' ? 'Đang chờ duyệt' :
+                                             app.status === 'APPROVED' ? 'Đã trúng tuyển' : 'Bị từ chối'}
                                         </span>
                                     </div>
                                     <div className="app-card-body">
-                                        <p><strong>Ngày nộp đơn:</strong> {app.appliedDate ? new Date(app.appliedDate).toLocaleString('vi-VN') : 'Không rõ'}</p>
-                                        <p><strong>Địa điểm:</strong> {app.project?.location || 'Chưa cập nhật'}</p>
-                                        <p><strong>Thời gian:</strong> {app.project?.startDate ? new Date(app.project.startDate).toLocaleDateString('vi-VN') : '...'} đến {app.project?.endDate ? new Date(app.project.endDate).toLocaleDateString('vi-VN') : '...'}</p>
-                                        
-                                        {app.status === 'REJECTED' && app.rejectReason && (
-                                            <div className="reject-reason">
-                                                <strong>Lý do:</strong> {app.rejectReason}
-                                            </div>
-                                        )}
+                                        <p><strong>Trường:</strong> {app.school || 'Chưa cập nhật'}</p>
+                                        <p><strong>Kỹ năng:</strong> {app.skill || 'Chưa cập nhật'}</p>
                                     </div>
                                 </div>
                             ))}

@@ -99,4 +99,9 @@ public class ApplicationService {
                 application.getStatus()
         );
     }
+
+    public List<ApplicationResponseDTO> getApplicationsByUser(Long userId) {
+        List<Application> applications = applicationRepository.findByUserId(userId);
+        return applications.stream().map(this::mapToDTO).toList();
+    }
 }
