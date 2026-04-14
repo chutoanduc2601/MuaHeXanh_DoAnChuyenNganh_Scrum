@@ -1,80 +1,105 @@
+/* HomeProject.css */
+:root {
+    --primary-green: #10b981;
+    --dark-green: #059669;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-white: #ffffff;
+}
 
-.home-container {
-    max-width: 1200px;
-    margin: 0 auto;
+/* Tận dụng background đã thiết lập ở body trong ProjectManager.css 
+   Nếu file này chạy độc lập, hãy thêm background-image vào .home-wrapper */
+
+.home-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 40px 20px;
-    font-family: 'Inter', sans-serif;
+    background: #1d8a4b;
 }
 
 .home-header {
+    margin-top: 60px;
+
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 }
 
 .home-header h1 {
-    color: #1a202c;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.home-header p {
-    color: #718096;
-    font-size: 1.1rem;
+    color: var(--text-white);
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    letter-spacing: -1px;
 }
 
 .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+    max-width: 1000px;
+    width: 100%;
+    justify-content: center;
 }
 
 .menu-card {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 50px 40px;
+    border-radius: 24px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--glass-border);
+    flex: 1;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .menu-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    border-color: #4299e1;
+    transform: translateY(-15px);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--primary-green);
 }
 
-.icon-wrapper {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    display: block;
+.icon-box {
+    font-size: 4rem;
+    margin-bottom: 25px;
+    display: inline-block;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
 }
 
 .menu-card h3 {
-    font-size: 1.5rem;
-    color: #2d3748;
+    font-size: 1.8rem;
+    color: #064e3b; /* Xanh đậm rừng già */
     margin-bottom: 15px;
+    font-weight: 700;
 }
 
 .menu-card p {
-    color: #4a5568;
+    color: #374151;
     line-height: 1.6;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
+    font-size: 1.1rem;
 }
 
 .btn-navigate {
     display: inline-block;
-    padding: 12px 25px;
-    background-color: #4299e1;
+    padding: 14px 30px;
+    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
     color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.2s;
+    border-radius: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
 }
 
 .menu-card:hover .btn-navigate {
-    background-color: #3182ce;
+    transform: scale(1.05);
+    box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4);
 }

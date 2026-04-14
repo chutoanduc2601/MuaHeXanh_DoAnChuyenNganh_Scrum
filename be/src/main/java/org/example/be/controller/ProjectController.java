@@ -46,6 +46,11 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProjectsByStatus("PENDING"));
     }
 
+    @GetMapping("/status/approved")
+    public ResponseEntity<List<Project>> getApprovedProjects() {
+        return ResponseEntity.ok(projectService.getProjectsByStatus("APPROVED"));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Project> getProject(@PathVariable Integer id) {
         return ResponseEntity.ok(projectService.getProjectById(id));
