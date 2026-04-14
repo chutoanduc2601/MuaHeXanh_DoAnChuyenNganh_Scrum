@@ -2,8 +2,6 @@ package org.example.be.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +27,6 @@ public class Application {
     // Project được apply
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
     // PENDING / JOINED / REJECTED
@@ -41,8 +38,4 @@ public class Application {
 
     @Column(name = "reject_reason", columnDefinition = "TEXT")
     private String rejectReason;
-
-
-
-
 }

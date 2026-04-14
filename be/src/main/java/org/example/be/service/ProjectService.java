@@ -1,47 +1,45 @@
 package org.example.be.service;
 
 import org.example.be.entity.Project;
-import org.example.be.repository.ApplicationRepository;
 import org.example.be.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
 public class ProjectService {
-    @Autowired
-    private ApplicationRepository applicationRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
+
     public Project createProject(Project project) {
-        if (project.getStatus() == null) project.setStatus("PENDING");
+        project.setIsActive(1);
         return projectRepository.save(project);
     }
-    @Transactional
-    public void deleteProject(Integer id) {
-        // 1. Xóa tất cả đơn đăng ký liên quan đến project này trước
-        applicationRepository.deleteByProjectId(id);
 
-        // 2. Sau đó mới xóa Project
-        projectRepository.deleteById(id);
-    }
     public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+        return projectRepository.findByIsActive(1);
     }
 
     public Project getProjectById(Integer id) {
         return projectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy dự án ID: " + id));
+                .filter(p -> p.getIsActive() == 1)
+                .orElseThrow(() -> new RuntimeException("Dự án không tồn tại hoặc đã bị ẩn"));
+    }
+
+    // LOGIC XÓA MỀM: Chuyển 1 sang 2
+    public void deleteProject(Integer id, String reason) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy dự án"));
+
+        project.setIsActive(2);
+        project.setDeleteReason(reason);
+        projectRepository.save(project);
     }
 
 
     public Project updateProject(Integer id, Project projectDetails) {
-        // 1. Tìm dự án cũ, nếu không thấy sẽ ném ngoại lệ (RuntimeException đã định nghĩa ở hàm getProjectById)
         Project project = getProjectById(id);
-
-        // 2. Cập nhật các thông tin mới
         project.setProjectName(projectDetails.getProjectName());
         project.setDescription(projectDetails.getDescription());
         project.setLocation(projectDetails.getLocation());
@@ -49,21 +47,15 @@ public class ProjectService {
         project.setRequiredSkills(projectDetails.getRequiredSkills());
         project.setStartDate(projectDetails.getStartDate());
         project.setEndDate(projectDetails.getEndDate());
-        // Lưu ý: Không cập nhật status trừ khi bạn muốn leader có quyền đổi status tại đây
-
-        // 3. Lưu lại (Spring Data JPA save() sẽ thực hiện UPDATE nếu Object đã có ID)
         return projectRepository.save(project);
     }
 
-    // ======= APPROVE =======
     public Project approveProject(Integer id) {
         Project project = getProjectById(id);
         project.setStatus("APPROVED");
-        project.setRejectReason(null); // clear lý do cũ nếu có
         return projectRepository.save(project);
     }
 
-    // ======= REJECT =======
     public Project rejectProject(Integer id, String reason) {
         Project project = getProjectById(id);
         project.setStatus("REJECTED");
@@ -72,8 +64,6 @@ public class ProjectService {
     }
 
     public List<Project> getProjectsByStatus(String status) {
-        return projectRepository.findByStatus(status);
+        return projectRepository.findByStatusAndIsActive(status, 1);
     }
-
-
 }

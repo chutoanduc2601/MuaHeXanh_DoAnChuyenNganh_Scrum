@@ -26,4 +26,5 @@ public class ProjectRequestDTO {
 
     @JsonProperty("endDate")
     private LocalDate endDate;
+
 }

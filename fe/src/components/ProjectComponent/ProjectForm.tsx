@@ -103,7 +103,7 @@ const ProjectForm: React.FC = () => {
                             <input type="text" name="location" required onChange={handleChange} />
                         </div>
                         <div className="form-group-v2">
-                            <label>Số lượng SV cần</label>
+                            <label>Số lượng </label>
                             <input type="number" name="requiredStudents" min="1" required onChange={handleChange} />
                         </div>
                     </div>
