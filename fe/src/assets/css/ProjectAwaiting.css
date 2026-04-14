@@ -1,13 +1,30 @@
 /* ===== GENERAL CONTAINER ===== */
 .project-list-container {
-    max-width: 1000px;
+    max-width: 1050px;
     margin: 40px auto;
-    padding: 30px;
+    padding: 30px 40px;
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-top: 5px solid #10b981; /* Green accent */
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.05), 0 4px 10px rgba(0, 0, 0, 0.03);
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background blob decoration */
+.project-list-container::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .loading-text {
@@ -15,58 +32,93 @@
     padding: 50px;
     font-size: 16px;
     color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.loading-text::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 3px solid #d1fae5;
+    border-top-color: #10b981;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* ===== HEADER ===== */
 .page-header {
-    margin-bottom: 24px;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    position: relative;
+    z-index: 1;
 }
 
 .page-header h2 {
     margin: 0;
-    color: #1f2937;
-    font-size: 24px;
-    font-weight: 700;
+    color: #064e3b; /* Dark green */
+    font-size: 26px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* ===== TABLE ===== */
 .table-responsive {
-    overflow-x: auto; /* Ngăn bảng phá layout trên mobile */
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
+    position: relative;
+    z-index: 1;
 }
 
 .table-projects {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    background: white;
 }
 
 .table-projects th,
 .table-projects td {
-    padding: 14px 16px;
+    padding: 16px 20px;
     border-bottom: 1px solid #f3f4f6;
     text-align: left;
     color: #374151;
 }
 
 .table-projects th {
-    background: #f8fafc;
-    font-weight: 600;
-    color: #475569;
+    background: #ecfdf5; /* Light emerald */
+    font-weight: 700;
+    color: #065f46; /* Emerald text */
     text-transform: uppercase;
     font-size: 13px;
     letter-spacing: 0.05em;
+    border-bottom: 2px solid #a7f3d0;
+}
+
+.table-projects tr {
+    transition: all 0.2s ease;
 }
 
 .table-projects tr:hover {
-    background: #f9fafb;
+    background: #f0fdf4; /* Hover green */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .table-projects .font-medium {
-    font-weight: 500;
-    color: #111827;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .text-center {
@@ -74,18 +126,24 @@
 }
 
 .empty-state {
-    padding: 40px !important;
-    color: #9ca3af !important;
-    font-style: italic;
+    padding: 60px !important;
+    color: #6b7280 !important;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 /* ===== STATUS BADGES ===== */
 .status-badge {
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .status-pending {
@@ -104,11 +162,11 @@ button {
 .btn-home {
     align-self: flex-start;
     padding: 8px 16px;
-    background: #f3f4f6;
-    color: #4b5563;
-    border: 1px solid #d1d5db;
+    background: white;
+    color: #10b981;
+    border: 1px solid #10b981;
     border-radius: 8px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -116,43 +174,54 @@ button {
 }
 
 .btn-home:hover {
-    background: #e5e7eb;
-    color: #111827;
+    background: #ecfdf5;
+    color: #059669;
 }
 
 .btn-approval,
 .btn-reject,
 .btn-cancel {
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 600;
     color: white;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .btn-approval {
-    background: #10b981; /* Xanh ngọc mượt hơn */
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
 }
 .btn-approval:hover {
-    background: #059669;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
 }
 
 .btn-reject {
-    background: #ef4444; /* Đỏ từ chối chuẩn UX */
+    background: white;
+    color: #ef4444;
+    border: 1px solid #fca5a5;
 }
 .btn-reject:hover {
-    background: #dc2626;
-    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #b91c1c;
 }
 
 .btn-cancel {
-    background: #9ca3af;
-    color: #ffffff;
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
 }
 .btn-cancel:hover {
-    background: #6b7280;
+    background: #e5e7eb;
+    color: #1f2937;
 }
 
 .action-btns {
@@ -165,8 +234,8 @@ button {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(17, 24, 39, 0.6); /* Tối hơn một chút để focus vào modal */
-    backdrop-filter: blur(2px); /* Làm mờ background nhẹ */
+    background: rgba(4, 47, 46, 0.6); /* Darker green theme overlay */
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,53 +244,71 @@ button {
 
 .modal-box {
     background: white;
-    padding: 24px;
-    width: 400px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    animation: modalFadeIn 0.3s ease-out forwards;
+    padding: 30px;
+    width: 450px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: modalBounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border-top: 5px solid #ef4444; /* Red accent for rejection */
 }
 
 .modal-box h3 {
     margin-top: 0;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     color: #1f2937;
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .modal-box textarea {
     width: 100%;
-    height: 100px;
-    padding: 12px;
-    border-radius: 8px;
+    height: 120px;
+    padding: 16px;
+    border-radius: 12px;
     border: 1px solid #d1d5db;
     resize: none;
     font-family: inherit;
     font-size: 14px;
-    box-sizing: border-box; /* Đảm bảo không bị tràn padding */
-    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background: #f9fafb;
 }
 
 .modal-box textarea:focus {
     outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    border-color: #10b981;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
 }
 
 .modal-btns {
-    margin-top: 20px;
+    margin-top: 24px;
     display: flex;
     justify-content: flex-end;
     gap: 12px;
 }
 
-/* Animation cho modal */
-@keyframes modalFadeIn {
-    from {
+.modal-btns .btn-reject {
+    background: #ef4444;
+    color: white;
+    border: none;
+}
+.modal-btns .btn-reject:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+}
+
+/* Animation */
+@keyframes modalBounceIn {
+    0% {
         opacity: 0;
-        transform: translateY(-20px) scale(0.95);
+        transform: translateY(-30px) scale(0.9);
     }
-    to {
+    100% {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
