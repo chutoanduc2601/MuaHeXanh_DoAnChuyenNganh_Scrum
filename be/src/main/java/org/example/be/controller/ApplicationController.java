@@ -55,9 +55,9 @@ public class ApplicationController {
         }
     }
 
-    // Sinh viên xem danh sách các dự án mình đã apply
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ApplicationResponseDTO>> getApplicationsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(applicationService.getApplicationsByUser(userId));
-    }
+//    // Sinh viên xem danh sách các dự án mình đã apply
+//    @GetMapping("/user/{userId}")
+//    public ResponseEntity<List<ApplicationResponseDTO>> getApplicationsByUser(@PathVariable Long userId) {
+//        return ResponseEntity.ok(applicationService.getApplicationsByUser(userId));
+//    }
 }
