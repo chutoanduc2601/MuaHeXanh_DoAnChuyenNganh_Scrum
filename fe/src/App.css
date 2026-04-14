@@ -1059,3 +1059,458 @@ body {
     padding-top: 0;
   }
 }
+
+/* --- MyProjectsPage.css --- */
+.my-projects-container {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    /* === NỀN "MÙA HÈ XANH" MESH GRADIENT === */
+    background-color: #f4fdfb; /* Màu nền gốc xanh mint cực nhạt */
+    background-image: 
+        radial-gradient(at 10% 20%, rgba(167, 243, 208, 0.45) 0px, transparent 50%), /* Đốm xanh lá mạ góc trái trên */
+        radial-gradient(at 90% 10%, rgba(186, 230, 253, 0.4) 0px, transparent 50%), /* Đốm xanh da trời góc phải trên */
+        radial-gradient(at 80% 80%, rgba(253, 230, 138, 0.3) 0px, transparent 50%), /* Đốm vàng nắng sớm góc phải dưới */
+        radial-gradient(at 20% 90%, rgba(134, 239, 172, 0.3) 0px, transparent 50%); /* Đốm xanh lá cây góc trái dưới */
+    
+    /* Giữ cho background đứng yên khi bạn cuộn trang (tạo hiệu ứng mượt mà) */
+    background-attachment: fixed; 
+    background-size: cover;
+}
+
+.my-projects-main {
+    flex: 1;
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Header Section */
+.my-page-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.my-page-header h1 {
+    color: #111827;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.my-page-header p {
+    color: #4b5563;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Grid layout cho Card */
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* Thiết kế Card Dự án */
+.app-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(20, 184, 166, 0.15); /* Bóng xanh ngọc khi hover */
+    border-color: #ccfbf1;
+}
+
+.app-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.app-card-header h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #0f766e; /* Xanh ngọc đậm */
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* Các Badge Trạng thái */
+.app-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.status-approved {
+    background-color: #d1fae5;
+    color: #047857; /* Xanh lá đồng bộ homepage */
+}
+
+.status-rejected {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Body Card chứa thông tin */
+.app-card-body {
+    padding: 20px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-row strong {
+    color: #9ca3af;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-row span {
+    color: #1f2937;
+    font-weight: 500;
+}
+
+.reject-reason {
+    margin-top: 5px;
+    padding: 12px 16px;
+    background-color: #fef2f2;
+    border-left: 4px solid #ef4444;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #991b1b;
+    line-height: 1.5;
+}
+
+/* Trạng thái trống (Empty State) & Nút */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px dashed #cbd5e1;
+}
+
+.empty-state p {
+    color: #64748b;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.btn-explore {
+    background-color: #10b981; /* Nút màu xanh lá chuẩn như trang chủ */
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px; /* Bo góc tròn hẳn giống nút "Đăng ký tham gia ngay" */
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+}
+
+.btn-explore:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Loading Spinner đơn giản */
+.loading-spinner {
+    border: 4px solid rgba(16, 185, 129, 0.1);
+    border-left-color: #10b981;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Tìm và sửa lại màu chữ của header --- */
+.my-page-header h1 {
+    color: #0f766e; /* Đổi từ màu đen/xám đậm sang Xanh ngọc đậm */
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+/* --- MyProjectsPage.css --- */
+.my-projects-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8fafc; /* Nền xám rất nhạt, sạch sẽ */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.my-projects-main {
+  flex: 1;
+  width: 100%;
+}
+
+/* === HERO BANNER (ẢNH MÙA HÈ XANH) === */
+.hero-section-my-projects {
+  width: 100%;
+  height: 280px;
+ 
+  background: linear-gradient(to right, rgba(15, 118, 110, 0.9), rgba(20, 184, 166, 0.7)), 
+              url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  margin-bottom: -40px; 
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.hero-content p {
+  font-size: 1.15rem;
+  opacity: 0.9;
+}
+
+/* === KHU VỰC CHỨA CÁC THẺ === */
+.applications-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 60px 20px;
+  position: relative;
+  z-index: 10; /* Nổi lên trên banner */
+}
+
+/* === BỘ LỌC TABS === */
+.filter-tabs {
+  background: white;
+  padding: 8px;
+  border-radius: 50px;
+  display: inline-flex;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+  border: 1px solid #e2e8f0;
+  overflow-x: auto; /* Cuộn ngang trên mobile */
+  max-width: 100%;
+}
+
+.filter-btn {
+  border: none;
+  background: transparent;
+  padding: 10px 24px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  color: #0f766e;
+  background-color: #f1f5f9;
+}
+
+.filter-btn.active {
+  background-color: #14b8a6; /* Xanh mint */
+  color: white;
+  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.3);
+}
+
+/* === CARD LAYOUT === */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.app-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(20, 184, 166, 0.12);
+  border-color: #ccfbf1;
+}
+
+.app-card-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px dashed #e2e8f0;
+  display: flex;
+  flex-direction: column; /* Đổi thành xếp dọc để tên dự án không bị chèn ép */
+  gap: 12px;
+}
+
+.app-card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Căn chỉnh nhãn trạng thái */
+.app-status {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending { background-color: #fef3c7; color: #b45309; }
+.status-approved { background-color: #d1fae5; color: #047857; }
+.status-rejected { background-color: #fee2e2; color: #b91c1c; }
+
+/* Body Card */
+.app-card-body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Dòng info có icon */
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-label svg {
+  stroke-width: 2.5; /* Làm icon đậm nét hơn */
+}
+
+.info-row span:not(.info-label) {
+  color: #334155;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding-left: 24px; /* Thụt lề cho thẳng hàng với text ở trên */
+}
+
+.reject-reason {
+  margin-top: 8px;
+  padding: 12px 16px;
+  background-color: #fef2f2;
+  border-left: 4px solid #ef4444;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #991b1b;
+  line-height: 1.5;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.empty-state p {
+  color: #64748b;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+}
+
+.btn-explore {
+  background-color: #14b8a6;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.2);
+}
+
+.btn-explore:hover {
+  background-color: #0f766e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(20, 184, 166, 0.3);
+}
+
+.loading-spinner {
+  border: 4px solid rgba(20, 184, 166, 0.1);
+  border-left-color: #14b8a6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 80px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

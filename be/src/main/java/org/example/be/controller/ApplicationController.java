@@ -54,4 +54,10 @@ public class ApplicationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    // Sinh viên xem danh sách các dự án mình đã apply
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ApplicationResponseDTO>> getApplicationsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(applicationService.getApplicationsByUser(userId));
+    }
 }

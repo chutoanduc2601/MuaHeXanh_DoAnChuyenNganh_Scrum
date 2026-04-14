@@ -35,4 +35,7 @@ public class Application {
 
     @Column(name = "applied_at")
     private LocalDateTime appliedAt = LocalDateTime.now();
+
+    @Column(name = "reject_reason", columnDefinition = "TEXT")
+    private String rejectReason;
 }

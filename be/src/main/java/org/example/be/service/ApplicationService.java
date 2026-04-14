@@ -96,7 +96,14 @@ public class ApplicationService {
                 user.getNote(),
                 project.getId(),
                 project.getProjectName(),
-                application.getStatus()
+                application.getStatus(),
+
+                // ======== TRUYỀN DỮ LIỆU TỪ ENTITY VÀO ========
+                application.getAppliedAt(),
+                project.getLocation(),
+                project.getStartDate(),
+                project.getEndDate(),
+                application.getRejectReason()
         );
     }
 
