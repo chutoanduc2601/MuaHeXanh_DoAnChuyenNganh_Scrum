@@ -18,6 +18,77 @@ interface Project {
     status: string;
 }
 
+// Mock data
+// const MOCK_PROJECTS: Project[] = [
+//     {
+//         id: 1,
+//         projectName: "Dạy học miễn phí tại vùng sâu",
+//         description: "Hỗ trợ giảng dạy các môn Toán, Tiếng Việt cho học sinh tiểu học tại các xã khó khăn thuộc tỉnh Bình Phước.",
+//         location: "TP. Hồ Chí Minh",
+//         requiredStudents: 20,
+//         requiredSkills: "Sư phạm, Kiên nhẫn, Tiếng Việt",
+//         startDate: "2025-06-15",
+//         endDate: "2025-08-15",
+//         status: "approved"
+//     },
+//     {
+//         id: 2,
+//         projectName: "Trồng cây xanh đô thị",
+//         description: "Tham gia trồng và chăm sóc cây xanh dọc các tuyến đường nội thành nhằm cải thiện môi trường sống.",
+//         location: "Hà Nội",
+//         requiredStudents: 35,
+//         requiredSkills: "Thể lực tốt, Yêu môi trường",
+//         startDate: "2025-07-01",
+//         endDate: "2025-07-31",
+//         status: "approved"
+//     },
+//     {
+//         id: 3,
+//         projectName: "Hỗ trợ y tế cộng đồng",
+//         description: "Phối hợp với trạm y tế phường tổ chức khám sức khoẻ miễn phí, tư vấn dinh dưỡng cho người cao tuổi.",
+//         location: "Đà Nẵng",
+//         requiredStudents: 15,
+//         requiredSkills: "Y khoa, Điều dưỡng, Giao tiếp",
+//         startDate: "2025-06-20",
+//         endDate: "2025-07-20",
+//         status: "approved"
+//     },
+//     {
+//         id: 4,
+//         projectName: "Số hoá tài liệu thư viện",
+//         description: "Scan và xây dựng cơ sở dữ liệu số cho kho tài liệu địa phương giúp người dân tra cứu dễ dàng hơn.",
+//         location: "Cần Thơ",
+//         requiredStudents: 10,
+//         requiredSkills: "CNTT, Tỉ mỉ, Photoshop",
+//         startDate: "2025-07-10",
+//         endDate: "2025-08-10",
+//         status: "approved"
+//     },
+//     {
+//         id: 5,
+//         projectName: "Vệ sinh bờ biển Mỹ Khê",
+//         description: "Dọn dẹp rác thải nhựa và tuyên truyền ý thức bảo vệ môi trường biển cho người dân và du khách.",
+//         location: "Đà Nẵng",
+//         requiredStudents: 50,
+//         requiredSkills: "Thể lực tốt, Nhiệt tình",
+//         startDate: "2025-06-28",
+//         endDate: "2025-06-30",
+//         status: "approved"
+//     },
+//     {
+//         id: 6,
+//         projectName: "Workshop kỹ năng sống cho trẻ em",
+//         description: "Tổ chức các buổi workshop kỹ năng mềm, an toàn giao thông và phòng tránh tai nạn cho học sinh THCS.",
+//         location: "TP. Hồ Chí Minh",
+//         requiredStudents: 25,
+//         requiredSkills: "Thuyết trình, Sáng tạo, MC",
+//         startDate: "2025-07-05",
+//         endDate: "2025-07-25",
+//         status: "approved"
+//     }
+// ];
+
+
 export default function PublicProjectsPage() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
@@ -37,6 +108,13 @@ export default function PublicProjectsPage() {
         };
         fetchApprovedProjects();
     }, []);
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setProjects(MOCK_PROJECTS);
+    //         setLoading(false);
+    //     }, 800);
+    // }, []);
 
     const handleRegisterClick = async (projectId: number) => {
         const userStr = localStorage.getItem('user');
