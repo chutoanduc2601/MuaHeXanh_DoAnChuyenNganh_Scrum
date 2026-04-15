@@ -2,7 +2,6 @@ package org.example.be.controller;
 
 import org.example.be.dto.ProjectRequestDTO;
 import org.example.be.dto.RejectRequest;
-import org.example.be.dto.ApproveRequest;
 import org.example.be.entity.Project;
 import org.example.be.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<Project> addProject(@RequestBody ProjectRequestDTO projectDTO) {
-        // Kiểm tra log ở đây, nếu vẫn null thì là do lỗi format JSON ở Postman
-        System.out.println("Mapping DTO to Entity: " + projectDTO.getProjectName());
-
         Project project = new Project();
         project.setProjectName(projectDTO.getProjectName());
         project.setDescription(projectDTO.getDescription());
@@ -37,15 +33,25 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<Project> listProjects() {
+    public List<Project> getAllProjects() {
         return projectService.getAllProjects();
     }
-
+    // Trong ProjectController.java
     @GetMapping("/status/pending")
     public ResponseEntity<List<Project>> getPendingProjects() {
-        return ResponseEntity.ok(projectService.getProjectsByStatus("PENDING"));
+        // Gọi hàm service đã được viết logic lọc isActive = 1
+        return ResponseEntity.ok(projectService.getProjectsByStatusAndActive("PENDING", 1));
     }
-
+    // Trong file ProjectController.java
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProject(
+            @PathVariable Integer id,
+            @RequestBody java.util.Map<String, String> payload
+    ) {
+        String reason = payload.get("deleteReason");
+        projectService.deleteProject(id, reason);
+        return ResponseEntity.ok("Dự án đã được xóa thành công!");
+    }
     @GetMapping("/status/approved")
     public ResponseEntity<List<Project>> getApprovedProjects() {
         return ResponseEntity.ok(projectService.getProjectsByStatus("APPROVED"));
@@ -56,18 +62,8 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProjectById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> removeProject(@PathVariable Integer id) {
-        projectService.deleteProject(id);
-        return ResponseEntity.ok("Xóa thành công!");
-    }
-    // Trong ProjectController.java
-
-    // Trong ProjectController.java
-
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@PathVariable Integer id, @RequestBody ProjectRequestDTO projectDTO) {
-        // 1. Chuyển đổi DTO sang Entity (để giữ tính đóng gói)
         Project projectDetails = new Project();
         projectDetails.setProjectName(projectDTO.getProjectName());
         projectDetails.setDescription(projectDTO.getDescription());
@@ -77,9 +73,7 @@ public class ProjectController {
         projectDetails.setStartDate(projectDTO.getStartDate());
         projectDetails.setEndDate(projectDTO.getEndDate());
 
-        // 2. Gọi Service để thực hiện cập nhật
         Project updatedProject = projectService.updateProject(id, projectDetails);
-
         return ResponseEntity.ok(updatedProject);
     }
 

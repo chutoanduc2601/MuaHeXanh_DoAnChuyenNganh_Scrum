@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Plus, Eye, Edit3, Users, Trash2, MapPin } from 'lucide-react';
-import Swal from 'sweetalert2'; // Đảm bảo đã import Swal
+import Swal from 'sweetalert2';
 import bgImage from '../../assets/images/pngt.jpg';
 import '../../assets/css/ProjectList.css';
 
@@ -12,6 +12,7 @@ interface Project {
     location: string;
     requiredStudents: number;
     status: string;
+    isActive: number;
 }
 
 const ProjectList: React.FC = () => {
@@ -35,7 +36,6 @@ const ProjectList: React.FC = () => {
         fetchProjects();
     }, []);
 
-    // HÀM XÓA CÓ NHẬP LÝ DO
     const handleDelete = async (id: number, name: string) => {
         const { value: reason } = await Swal.fire({
             title: 'Xác nhận xóa dự án?',
@@ -44,9 +44,6 @@ const ProjectList: React.FC = () => {
             input: 'textarea',
             inputLabel: 'Lý do xóa dự án',
             inputPlaceholder: 'Nhập lý do tại đây (bắt buộc)...',
-            inputAttributes: {
-                'aria-label': 'Nhập lý do tại đây'
-            },
             showCancelButton: true,
             confirmButtonColor: '#ef4444',
             cancelButtonColor: '#64748b',
@@ -61,20 +58,15 @@ const ProjectList: React.FC = () => {
 
         if (reason) {
             try {
-                // Gửi request xóa kèm lý do (tùy Backend của bạn có nhận reason hay không)
-                // Nếu Backend chỉ nhận ID: await axios.delete(`.../${id}`);
+                // GỬI LÝ DO QUA BODY CỦA DELETE REQUEST
                 await axios.delete(`http://localhost:8080/api/projects/${id}`, {
                     data: { deleteReason: reason }
                 });
 
-                setProjects(projects.filter(p => p.id !== id));
+                // Cập nhật lại danh sách hiển thị (ẩn đi)
+                setProjects(prev => prev.filter(p => p.id !== id));
 
-                Swal.fire({
-                    title: 'Đã xóa!',
-                    text: 'Dự án đã được loại bỏ khỏi hệ thống.',
-                    icon: 'success',
-                    confirmButtonColor: '#059669'
-                });
+                Swal.fire('Đã xóa!', 'Dự án đã xóa.', 'success');
             } catch (error) {
                 Swal.fire('Lỗi!', 'Không thể xóa dự án lúc này.', 'error');
             }
@@ -82,7 +74,8 @@ const ProjectList: React.FC = () => {
     };
 
     const filtered = projects.filter(p =>
-        p.projectName.toLowerCase().includes(searchTerm.toLowerCase())
+        p.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.location.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -109,6 +102,7 @@ const ProjectList: React.FC = () => {
                         <input
                             type="text"
                             placeholder="Tìm kiếm tên chiến dịch hoặc địa điểm..."
+                            value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
@@ -123,8 +117,8 @@ const ProjectList: React.FC = () => {
                                         <div className="info-group">
                                             <h3 className="project-title-v3">{project.projectName}</h3>
                                             <div className="tag-row">
-                                                <span className={`pill-status ${project.status?.toLowerCase() || 'approved'}`}>
-                                                    {project.status || 'APPROVED'}
+                                                <span className={`pill-status ${project.status?.toLowerCase()}`}>
+                                                    {project.status}
                                                 </span>
                                                 <span className="pill-loc">
                                                     <MapPin size={14} /> {project.location}

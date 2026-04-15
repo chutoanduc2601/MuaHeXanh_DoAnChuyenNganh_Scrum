@@ -50,5 +50,14 @@ public class Project {
     private String status = "PENDING";
 
     @Column(name = "reject_reason", columnDefinition = "TEXT")
+    @JsonProperty("rejectReason")
     private String rejectReason;
+
+    @Column(name = "is_active")
+    @JsonProperty("isActive")
+    private Integer isActive = 1;
+
+    @Column(name = "delete_reason", columnDefinition = "TEXT")
+    @JsonProperty("deleteReason")
+    private String deleteReason;
 }
