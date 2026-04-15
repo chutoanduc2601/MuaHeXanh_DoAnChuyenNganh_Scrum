@@ -46,7 +46,7 @@ export default function MyProjectsPage() {
       <main className="my-projects-main">
         
         {/* HERO BANNER MỚI */}
-        <div className="hero-section">
+        <div className="hero-section-my-projects">
           <div className="hero-content">
             <h1>Dự án của tôi</h1>
             <p>Theo dõi hành trình Mùa Hè Xanh rực rỡ của bạn</p>

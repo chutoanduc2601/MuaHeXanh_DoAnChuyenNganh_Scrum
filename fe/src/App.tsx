@@ -16,7 +16,8 @@ import EditProject from './components/ProjectComponent/EditProject.tsx';
 import LeaderCandidatePage from './pages/LeaderCandidatePage';
 import ProjectAwaitingApproval from './components/ProjectComponent/ProjectAwaitingApproval.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
-import MyProjectsPage from './pages/MyProjectsPage.tsx';
+import PublicProjectsPage from './pages/PublicProjectsPage';
+import MyProjectsPage from './pages/MyProjectsPage';
 
 function HomePage() {
     return (
@@ -41,9 +42,8 @@ function App() {
             {/* Trang đăng nhập/đăng ký */}
             <Route path="/dang-ky" element={<SignUpPage />} />
             <Route path="/dang-nhap" element={<LoginPage />} />
-
-            {/* CÁC TRANG DÀNH CHO STUDENT */}
-           <Route path="/my-projects" element={<MyProjectsPage />} />
+            <Route path="/du-an" element={<PublicProjectsPage />} />
+            <Route path="/my-projects" element={<MyProjectsPage />} />
 
             {/* CÁC TRANG DÀNH CHO LEADER */}
             <Route path="/leader-dashboard" element={<HomeProject />} />
